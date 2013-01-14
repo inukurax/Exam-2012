@@ -2,7 +2,7 @@ package quickcheck;
 
 public abstract class Info<T> {
 
-  private final T value;
+  protected final T value;
 
   protected Info(final T value) {
     this.value = value;

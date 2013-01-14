@@ -19,19 +19,19 @@ public final class IfThenElse extends TernaryExpression {
 	@Override
 	public boolean toBoolean() {
 		return this.alpha.toBoolean() ? 
-				this.beta.toBoolean() : this.alpha.toBoolean();
+				this.beta.toBoolean() : this.gamma.toBoolean();
 	}
 	
 	@Override
 	public String toString() {
 		return this.alpha.toBoolean() ? 
-				this.beta.toString() : this.alpha.toString();
+				this.beta.toString() : this.gamma.toString();
 	}
 	
 	@Override
 	public int toInt() {
 		return this.alpha.toBoolean() ? 
-				this.beta.toInt() : this.alpha.toInt();
+				this.beta.toInt() : this.gamma.toInt();
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package quickcheck;
 
 import spreadsheet.Expression;
+import spreadsheet.logical.IfThenElse;
 
 public class ExpressionInfo extends Info<Expression> {
 	
@@ -9,18 +10,19 @@ public class ExpressionInfo extends Info<Expression> {
 	private String name;
 	private Expression arg1;
 	private Expression arg2;
+	private Expression arg3;
 
 
 	/**
-	 * Unary expression
+	 * Const expression
 	 */
 	public ExpressionInfo(Expression exp) {
-		super(exp);	
+		super(exp);
 		name = exp.getDescription();
 	}
 	
 	/**
-	 * Overloaded for binary expression
+	 * Overloaded for unary expression
 	 * @param exp Expression
 	 * @param arg1 argument for exp
 	 */
@@ -32,7 +34,7 @@ public class ExpressionInfo extends Info<Expression> {
 	
 	
 	/**
-	 * Overloaded for ternary expression
+	 * Overloaded for binary expression
 	 * @param exp Expression
 	 * @param arg1 argument for exp
 	 * @param arg2 argument2 for exp
@@ -43,6 +45,21 @@ public class ExpressionInfo extends Info<Expression> {
 		this.arg2 = arg2;
 		name = exp.getDescription();
 	}
+	
+	/**
+	 * Overloaded for ternary expression
+	 * @param exp Expression
+	 * @param arg1 argument for exp
+	 * @param arg2 argument2 for exp
+	 * @param arg3 argugment 3 for exp
+	 */
+	public ExpressionInfo(Expression exp, Expression arg1, Expression arg2, Expression arg3) {
+		super(exp);	
+		this.arg1 = arg1;
+		this.arg2 = arg2;
+		this.arg3 = arg3;
+		name = exp.getDescription();
+	}
 
 
 	/**
@@ -50,17 +67,16 @@ public class ExpressionInfo extends Info<Expression> {
 	 * @return integer result
 	 */
 	public int intResult() {
-		Expression exp = this.getValue();
-		String className = exp.getClass().getSimpleName();
+		String className = value.getClass().getSimpleName();
 		
 		switch (className) {
-		case "Int" : return this.getValue().toInt();
-		case "Neg" : return exp.toInt() * (-1);
-		case "Add" : return exp.toInt() + this.arg1.toInt();
-		case "True" : return exp.toInt();
-		case "False" : return exp.toInt();
-		case "Text" : return exp.toInt();
-		case "IfThenElse" : return exp.toBoolean() ? arg1.toInt() : arg2.toInt();
+		case "Int" : return value.toInt();
+		case "Neg" : return arg1.toInt() * (-1);
+		case "Add" : return arg1.toInt() + this.arg2.toInt();
+		case "True" : return value.toInt();
+		case "False" : return value.toInt();
+		case "Text" : return value.toInt();
+		case "IfThenElse" : return arg1.toBoolean() ? this.arg2.toInt() : this.arg3.toInt();
 		default : return -99999;
 		}
 	}
@@ -70,15 +86,15 @@ public class ExpressionInfo extends Info<Expression> {
 	 * @return boolean result
 	 */
 	public boolean boolResult() {
-		Expression exp = this.getValue();
-		String className = exp.getClass().getSimpleName();
+		String className = value.getClass().getSimpleName();
 		
 		switch (className) {
-		case "Int" : return this.getValue().toBoolean();
-		case "True" : return exp.toBoolean();
-		case "False" : return exp.toBoolean();
-		case "Text" : return exp.toBoolean();
-		case "IfThenElse" : return exp.toBoolean() ? arg1.toBoolean() : arg2.toBoolean();
+		case "Int" : return value.toBoolean();
+		case "True" : return value.toBoolean();
+		case "False" : return value.toBoolean();
+		case "Text" : return value.toBoolean();
+		case "IfThenElse" : 
+			return arg1.toBoolean() ? this.arg2.toBoolean() : this.arg3.toBoolean();
 		default : return false;
 		}
 	}
@@ -88,15 +104,15 @@ public class ExpressionInfo extends Info<Expression> {
 	 * @return String result
 	 */
 	public String strResult() {
-		Expression exp = this.getValue();
-		String className = exp.getClass().getSimpleName();
+		String className = value.getClass().getSimpleName();
 		
 		switch (className) {
-		case "Int" : return this.getValue().toString();
-		case "True" : return exp.toString();
-		case "False" : return exp.toString();
-		case "Text" : return exp.toString();
-		case "IfThenElse" : return exp.toBoolean() ? this.arg1.toString() : this.arg2.toString();
+		case "Int" : return value.toString();
+		case "True" : return value.toString();
+		case "False" : return value.toString();
+		case "Text" : return value.toString();
+		case "IfThenElse" : 
+			return arg1.toBoolean() ? arg2.toString() : arg3.toString();
 		default : return null;
 		}
 	}
@@ -106,8 +122,6 @@ public class ExpressionInfo extends Info<Expression> {
 	 * for troubleshooting */
 	@Override
 	public String toString() {
-		name += (arg1 != null) ? " " + arg1.getDescription() : "";
-		name += (arg2 != null) ? " " + arg2.getDescription() : "";
 		return name;
 	}
 }
