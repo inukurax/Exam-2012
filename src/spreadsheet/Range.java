@@ -30,9 +30,9 @@ final public class Range {
 	}
 	
 	/**
-	 * Returns a list of positions. 
+	 * Returns a list of positions in the Range. 
 	 * Creates a new list if it hasn't been used before
-	 * @return ArracolumnList<Position> of all Positions in ranges
+	 * @return ArrayList<Position> of all Positions in the Range
 	 */
 	public List<Position> getPositionsInRange() {
 		if (posList == null) {
@@ -42,6 +42,10 @@ final public class Range {
 		return posList;	
 	}
 	
+	/**
+	 * Creates a string to describe a Range (A0:B1)
+	 * @return String of description of Range.
+	 */
 	public String getDescription() {
 	    final StringBuilder builder = new StringBuilder();
 		builder.append(this.posA.getDescription());

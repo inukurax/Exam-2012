@@ -11,22 +11,22 @@ public final class Reference
 
   private final Spreadsheet spreadsheet;
   private final Range range;
-  private final Position position;
+  private Position position = null;
+  private boolean onePos;
 
   public Reference(final Spreadsheet spreadsheet, final Range range) {
     super(GenericType.instance);
     this.spreadsheet = spreadsheet;
     this.range = range;
-    this.position = range.getPositionsInRange().get(0);
-
+    this.onePos = false;
   }
   
   public Reference(final Spreadsheet spreadsheet, final Position position) {
     super(GenericType.instance);
     this.spreadsheet = spreadsheet;
-    this.position = position;
     this.range = new Range(position, position);
-
+    this.onePos = true;
+    this.position = position;
   }
 
   private Expression getExpression() {
@@ -38,14 +38,20 @@ public final class Reference
   }
 
   public boolean toBoolean() {
+	  if (this.isRange())
+		  throw new UnsupportedOperationException();
     return this.getExpression().toBoolean();
   }
 
   public int toInt() {
+	  if (this.isRange())
+		  throw new UnsupportedOperationException();
     return this.getExpression().toInt();
   }
 
   public String toString() {
+	  if (this.isRange())
+		  throw new UnsupportedOperationException();
     return this.getExpression().toString();
   }
 
@@ -56,9 +62,20 @@ public final class Reference
     }
     getExpression().checkAcyclic(new Path(this, path));
   }
+  
+  /**
+   * Check if Reference got a Range or only a Position
+   * @return true if it got more than one Position, otherwise false
+   */
+  public boolean isRange() {
+	  return !this.onePos;
+  }
 
   public String getDescription() {
-    final String positionDescription = this.range.getDescription();
+	final String positionDescription = isRange() ? 
+			this.range.getDescription()
+			: this.position.getDescription();
+			
     if (Application.instance.getWorksheet().equals(this.spreadsheet)) {
       return positionDescription;
     } else {
