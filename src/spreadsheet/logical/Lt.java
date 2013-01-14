@@ -16,6 +16,6 @@ public final class Lt extends BinaryExpression {
 	
 	@Override
 	public boolean toBoolean() {
-		return this.alpha.toInt() == this.beta.toInt();
+		return this.alpha.toInt() < this.beta.toInt();
 	}
 }

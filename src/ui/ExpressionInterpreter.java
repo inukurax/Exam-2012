@@ -12,7 +12,10 @@ import spreadsheet.arithmetic.Int;
 import spreadsheet.arithmetic.Neg;
 import spreadsheet.exception.NoSuchSpreadsheet;
 import spreadsheet.logical.And;
+import spreadsheet.logical.Eq;
 import spreadsheet.logical.False;
+import spreadsheet.logical.IfThenElse;
+import spreadsheet.logical.Lt;
 import spreadsheet.logical.Not;
 import spreadsheet.logical.Or;
 import spreadsheet.logical.True;
@@ -92,6 +95,25 @@ public final class ExpressionInterpreter {
         return new Concat(
           interpret(scanner),
           interpret(scanner));
+      case "Lt":
+    	  return new Lt(interpret(scanner),
+          interpret(scanner));
+      case "Eq": 
+    	  return new Eq(interpret(scanner),
+          interpret(scanner));
+      case "If":
+    	  Expression condition = interpret(scanner);
+    	  if (scanner.hasNext() && scanner.next().equals("Then")) {
+    		  Expression ifTrue = interpret(scanner);
+    		  if (scanner.hasNext() && scanner.next().equals("Else")) {
+        		  Expression ifFalse = interpret(scanner);
+        		  return new IfThenElse(condition, ifTrue, ifFalse);
+    		  }
+    	  }
+    	  throw new InvalidExpression(scanner.hasNext() ?
+    					  (keyword + scanner.nextLine())
+    					  : keyword);
+    		  
       default:
         return interpretReference(keyword);
     }
