@@ -9,4 +9,9 @@ public final class ListSpreadsheets
     Application.instance.printSpreadsheets();
   }
 
+	@Override
+	public void undo() {
+		
+	}
+
 }

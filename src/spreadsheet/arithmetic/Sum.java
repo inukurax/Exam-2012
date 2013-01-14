@@ -25,8 +25,6 @@ public class Sum extends UnaryExpression {
 				 sum += exp.toInt();
 			 }
 		 }
-		return sum;
-			  
-	}
-	  
+		return sum;	  
+	}  
 }

@@ -38,4 +38,10 @@ public final class MoveSpreadsheet
     sheet.setName(this.newName);
   }
 
+	@Override
+	public void undo() {
+		// for later implementation
+		
+	}
+
 }

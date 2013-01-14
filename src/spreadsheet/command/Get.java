@@ -16,4 +16,10 @@ public final class Get
     Application.instance.showExpression(this.position);
   }
 
+	@Override
+	public void undo() {
+		// no undo needed.
+		
+	}
+
 }

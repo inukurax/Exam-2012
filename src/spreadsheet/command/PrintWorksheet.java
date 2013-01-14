@@ -9,4 +9,9 @@ public final class PrintWorksheet
     Application.instance.printWorksheet();
   }
 
+	@Override
+	public void undo() {
+		// TODO Auto-generated method stub
+	}
+
 }
