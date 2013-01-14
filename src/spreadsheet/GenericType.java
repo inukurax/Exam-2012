@@ -6,7 +6,7 @@ package spreadsheet;
  * all type conversion functions are overridden in the expression
  * type.
  */
-final class GenericType extends Type {
+public final class GenericType extends Type {
 
   public static final GenericType instance = new GenericType();
 

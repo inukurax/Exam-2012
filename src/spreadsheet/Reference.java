@@ -25,12 +25,12 @@ public final class Reference
     super(GenericType.instance);
     this.spreadsheet = spreadsheet;
     this.position = position;
-    this.range = null;
+    this.range = new Range(position, position);
 
   }
 
   private Expression getExpression() {
-    final Expression expression = this.iterator().next();
+    final Expression expression = this.spreadsheet.get(position);
     if (expression == null) {
       return new Text("");
     }
