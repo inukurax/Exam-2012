@@ -1,7 +1,6 @@
 package quickcheck;
 
 import spreadsheet.Expression;
-import spreadsheet.logical.IfThenElse;
 
 public class ExpressionInfo extends Info<Expression> {
 	
@@ -67,15 +66,15 @@ public class ExpressionInfo extends Info<Expression> {
 	 * @return integer result
 	 */
 	public int intResult() {
-		String className = value.getClass().getSimpleName();
+		String className = this.getValue().getClass().getSimpleName();
 		
 		switch (className) {
-		case "Int" : return value.toInt();
+		case "Int" : return this.getValue().toInt();
 		case "Neg" : return arg1.toInt() * (-1);
 		case "Add" : return arg1.toInt() + this.arg2.toInt();
-		case "True" : return value.toInt();
-		case "False" : return value.toInt();
-		case "Text" : return value.toInt();
+		case "True" : return this.getValue().toInt();
+		case "False" : return this.getValue().toInt();
+		case "Text" : return this.getValue().toInt();
 		case "IfThenElse" : return arg1.toBoolean() ? this.arg2.toInt() : this.arg3.toInt();
 		default : return -99999;
 		}
@@ -86,13 +85,13 @@ public class ExpressionInfo extends Info<Expression> {
 	 * @return boolean result
 	 */
 	public boolean boolResult() {
-		String className = value.getClass().getSimpleName();
+		String className = this.getValue().getClass().getSimpleName();
 		
 		switch (className) {
-		case "Int" : return value.toBoolean();
-		case "True" : return value.toBoolean();
-		case "False" : return value.toBoolean();
-		case "Text" : return value.toBoolean();
+		case "Int" : return this.getValue().toBoolean();
+		case "True" : return this.getValue().toBoolean();
+		case "False" : return this.getValue().toBoolean();
+		case "Text" : return this.getValue().toBoolean();
 		case "IfThenElse" : 
 			return arg1.toBoolean() ? this.arg2.toBoolean() : this.arg3.toBoolean();
 		default : return false;
@@ -104,13 +103,13 @@ public class ExpressionInfo extends Info<Expression> {
 	 * @return String result
 	 */
 	public String strResult() {
-		String className = value.getClass().getSimpleName();
+		String className = this.getValue().getClass().getSimpleName();
 		
 		switch (className) {
-		case "Int" : return value.toString();
-		case "True" : return value.toString();
-		case "False" : return value.toString();
-		case "Text" : return value.toString();
+		case "Int" : return this.getValue().toString();
+		case "True" : return this.getValue().toString();
+		case "False" : return this.getValue().toString();
+		case "Text" : return this.getValue().toString();
 		case "IfThenElse" : 
 			return arg1.toBoolean() ? arg2.toString() : arg3.toString();
 		default : return null;
