@@ -12,14 +12,17 @@ public class RangeTest {
 		
 	@org.junit.Before
 	public void intializeExpressionGenerator() {
-		this.posGen = new PositionGenerator();
+		this.posGen = new PositionGenerator(0, 2);
 	}
 
   @Test
   public void test() {
-	 Range range = new Range(posGen.next(), posGen.next());
-	for (Position pos : range.getPositionsInRange())
-	 System.out.println(String.format("x: %d, y: %d", pos.getRow() ,pos.getColumn()));
+	  Position pos1 = posGen.next();
+	  Position pos2 = posGen.next();
+
+	 Range range = new Range(pos1, pos2);
+	 System.out.println(String.format("x: %d, y: %d", pos1.getRow() ,pos2.getColumn()));
+	 System.out.println(range.getDescription());
   }
   
 }

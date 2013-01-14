@@ -13,6 +13,11 @@ public final class PositionGenerator
     this.columnGen = new IntegerGenerator(0, Integer.MAX_VALUE - 1);
     this.rowGen = new IntegerGenerator(0, Integer.MAX_VALUE - 1);
   }
+  
+  public PositionGenerator(int min, int max) {
+	    this.columnGen = new IntegerGenerator(min, max);
+	    this.rowGen = new IntegerGenerator(min, max);
+	  }
 
   public Position next() {
     final int column = this.columnGen.next();

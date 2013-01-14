@@ -17,7 +17,7 @@ public final class Reference
     super(GenericType.instance);
     this.spreadsheet = spreadsheet;
     this.range = range;
-    this.position = null;
+    this.position = range.getPositionsInRange().get(0);
 
   }
   
@@ -30,7 +30,7 @@ public final class Reference
   }
 
   private Expression getExpression() {
-    final Expression expression = this.spreadsheet.get(position);
+    final Expression expression = iterator().next();
     if (expression == null) {
       return new Text("");
     }
@@ -58,7 +58,7 @@ public final class Reference
   }
 
   public String getDescription() {
-    final String positionDescription = this.position.getDescription();
+    final String positionDescription = this.range.getDescription();
     if (Application.instance.getWorksheet().equals(this.spreadsheet)) {
       return positionDescription;
     } else {

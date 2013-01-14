@@ -20,7 +20,10 @@ public class Sum extends UnaryExpression {
 		  int sum = 0;
 		  Iterator<Expression> list = reference.iterator();
 		 while (list.hasNext()) {
-			 sum += list.next().toInt();
+			 Expression exp = list.next();
+			 if (exp != null) {
+				 sum += exp.toInt();
+			 }
 		 }
 		return sum;
 			  

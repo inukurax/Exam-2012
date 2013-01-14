@@ -11,6 +11,7 @@ import spreadsheet.Spreadsheet;
 import spreadsheet.arithmetic.Add;
 import spreadsheet.arithmetic.Int;
 import spreadsheet.arithmetic.Neg;
+import spreadsheet.arithmetic.Sum;
 import spreadsheet.exception.NoSuchSpreadsheet;
 import spreadsheet.logical.And;
 import spreadsheet.logical.Eq;
@@ -120,6 +121,7 @@ public final class ExpressionInterpreter {
     	  throw new InvalidExpression(scanner.hasNext() ?
     					  (next + scanner.nextLine())
     					  : keyword);  
+      case "Sum" : return new Sum(interpretReference(scanner.next()));
       default:
         return interpretReference(keyword);
     }
@@ -139,8 +141,11 @@ public final class ExpressionInterpreter {
     } else {
       spreadsheet = Application.instance.getWorksheet();
     }
-
-    return new Reference(spreadsheet, PositionInterpreter.interpret(text));
+    final int indexOfColon = text.indexOf(':');
+    if (indexOfColon != -1)
+    	return new Reference(spreadsheet, RangeInterpreter.interpret(text));
+    else
+    	return new Reference(spreadsheet, PositionInterpreter.interpret(text));
   }
 
 }

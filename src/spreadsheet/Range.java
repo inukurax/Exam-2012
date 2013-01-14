@@ -8,6 +8,8 @@ final public class Range {
 	private int rowMin;
 	private int columnMax;
 	private int columnMin;
+	private Position posA;
+	private Position posB;
 	private ArrayList<Position> posList;
 
 	/**
@@ -18,10 +20,12 @@ final public class Range {
 	 * @throws IllegalPosition 
 	 */
 	public Range(final Position a, final Position b) {
-		rowMin = Math.min(a.getRow(), b.getRow()); 
-		rowMax = Math.max(a.getRow(), b.getRow()); 
-		columnMin = Math.min(a.getColumn(), b.getColumn()); 
-		columnMax = Math.max(a.getColumn(), b.getColumn()); 
+		this.rowMin = Math.min(a.getRow(), b.getRow()); 
+		this.rowMax = Math.max(a.getRow(), b.getRow()); 
+		this.columnMin = Math.min(a.getColumn(), b.getColumn()); 
+		this.columnMax = Math.max(a.getColumn(), b.getColumn()); 
+		this.posA = a;
+		this.posB = b;
 	}
 	
 	/**
@@ -35,6 +39,14 @@ final public class Range {
 			addPositions();
 		}
 		return posList;	
+	}
+	
+	public String getDescription() {
+	    final StringBuilder builder = new StringBuilder();
+		builder.append(this.posA.getDescription());
+		builder.append(":");
+		builder.append(this.posB.getDescription());
+		return builder.toString();
 	}
 
 	/**
