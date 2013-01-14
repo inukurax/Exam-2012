@@ -14,6 +14,7 @@ import spreadsheet.exception.NoSuchSpreadsheet;
 import spreadsheet.logical.And;
 import spreadsheet.logical.Eq;
 import spreadsheet.logical.False;
+import spreadsheet.logical.Gt;
 import spreadsheet.logical.IfThenElse;
 import spreadsheet.logical.Lt;
 import spreadsheet.logical.Not;
@@ -101,19 +102,24 @@ public final class ExpressionInterpreter {
       case "Eq": 
     	  return new Eq(interpret(scanner),
           interpret(scanner));
+      case "Gt": 
+    	  return new Gt(interpret(scanner),
+    	          interpret(scanner));
       case "If":
+    	  String next = "";
     	  Expression condition = interpret(scanner);
-    	  if (scanner.hasNext() && scanner.next().equals("Then")) {
+    	  next = scanner.hasNext() ? scanner.next() : next; 
+    	  if (next.equals("Then")) {
     		  Expression ifTrue = interpret(scanner);
-    		  if (scanner.hasNext() && scanner.next().equals("Else")) {
+        	  next = scanner.hasNext() ? scanner.next() : next; 
+    		  if (scanner.hasNext() && next.equals("Else")) {
         		  Expression ifFalse = interpret(scanner);
         		  return new IfThenElse(condition, ifTrue, ifFalse);
     		  }
     	  }
     	  throw new InvalidExpression(scanner.hasNext() ?
-    					  (keyword + scanner.nextLine())
-    					  : keyword);
-    		  
+    					  (next + scanner.nextLine())
+    					  : keyword);  
       default:
         return interpretReference(keyword);
     }

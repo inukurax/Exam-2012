@@ -5,11 +5,13 @@ import java.awt.event.KeyListener;
 
 import gui.ExpressionView;
 import gui.StatusView;
+import gui.TabbedView;
 
 import spreadsheet.Application;
 import ui.ExpressionInterpreter;
 
 /** A listener for the Enter key in the {@link gui.ExpressionView}.
+ *  added: now also repaints TabbedView
  */
 public class ExpressionKeyListener implements KeyListener {
 
@@ -21,6 +23,7 @@ public class ExpressionKeyListener implements KeyListener {
     StatusView.instance.errorView.clear();
     try {
       Application.instance.set(ExpressionInterpreter.interpret(ExpressionView.instance.getText()));
+      TabbedView.instance.repaint();
     } catch (Exception e) {
       Application.instance.reportError(e);
     }

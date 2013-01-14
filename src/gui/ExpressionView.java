@@ -37,6 +37,7 @@ public final class ExpressionView
     java.awt.EventQueue.invokeLater(new Runnable() {
       public void run() {
         ExpressionView.this.setText("");
+
       }
     });
   }
