@@ -19,7 +19,7 @@ public class RangeInterpreter {
 	 public static Range interpret(final String text) throws InvalidPosition {
 		 final int indexOfColon = text.indexOf(':');
 		 Position posA = PositionInterpreter.interpret(text.substring(0, indexOfColon));
-		 Position posB = PositionInterpreter.interpret(text.substring(indexOfColon));
+		 Position posB = PositionInterpreter.interpret(text.substring(indexOfColon + 1));
 		return new Range(posA, posB);
 		  
 	 }

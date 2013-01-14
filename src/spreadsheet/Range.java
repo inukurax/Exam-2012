@@ -1,6 +1,7 @@
 package spreadsheet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 final public class Range {
 	
@@ -10,7 +11,7 @@ final public class Range {
 	private int columnMin;
 	private Position posA;
 	private Position posB;
-	private ArrayList<Position> posList;
+	private List<Position> posList;
 
 	/**
 	 * Construct a immutable object Range which holds the corners of
@@ -33,7 +34,7 @@ final public class Range {
 	 * Creates a new list if it hasn't been used before
 	 * @return ArracolumnList<Position> of all Positions in ranges
 	 */
-	public ArrayList<Position> getPositionsInRange() {
+	public List<Position> getPositionsInRange() {
 		if (posList == null) {
 			posList = new ArrayList<Position>();
 			addPositions();

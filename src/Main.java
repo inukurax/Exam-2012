@@ -10,6 +10,7 @@ import spreadsheet.exception.CycleException;
 import spreadsheet.textual.Concat;
 import spreadsheet.textual.Text;
 import ui.PositionInterpreter;
+import ui.RangeInterpreter;
 import ui.exception.InvalidPosition;
 
 class Main {
@@ -21,6 +22,10 @@ class Main {
 
     System.out.println(posA.getDescription());
     System.out.println(posB.getDescription());
+    System.out.println(RangeInterpreter.interpret("A0:B1").getDescription());
+    Range range = new Range(posA, posB);
+    System.out.println(range.getDescription());
+
     System.out.println(PositionInterpreter.interpret("A0"));
     System.out.println(PositionInterpreter.interpret("B1"));
 
