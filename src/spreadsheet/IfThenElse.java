@@ -1,6 +1,5 @@
-package spreadsheet.logical;
+package spreadsheet;
 
-import spreadsheet.Expression;
 import spreadsheet.expression.TernaryExpression;
 
 public final class IfThenElse extends TernaryExpression {
@@ -13,21 +12,21 @@ public final class IfThenElse extends TernaryExpression {
 	 */
 	public IfThenElse(final Expression condition, final Expression ifTrue, 
 			final Expression ifFalse) {
-		super(LogicalType.instance, condition, ifTrue, ifFalse);
+		super(GenericType.instance ,condition, ifTrue, ifFalse);
 	}
-	
+
 	@Override
 	public boolean toBoolean() {
 		return this.alpha.toBoolean() ? 
 				this.beta.toBoolean() : this.gamma.toBoolean();
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.alpha.toBoolean() ? 
 				this.beta.toString() : this.gamma.toString();
 	}
-	
+
 	@Override
 	public int toInt() {
 		return this.alpha.toBoolean() ? 

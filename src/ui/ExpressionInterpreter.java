@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import spreadsheet.Application;
 import spreadsheet.Expression;
+import spreadsheet.IfThenElse;
 import spreadsheet.Reference;
 import spreadsheet.Spreadsheet;
 import spreadsheet.arithmetic.Add;
@@ -15,7 +16,6 @@ import spreadsheet.logical.And;
 import spreadsheet.logical.Eq;
 import spreadsheet.logical.False;
 import spreadsheet.logical.Gt;
-import spreadsheet.logical.IfThenElse;
 import spreadsheet.logical.Lt;
 import spreadsheet.logical.Not;
 import spreadsheet.logical.Or;

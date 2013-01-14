@@ -4,39 +4,54 @@ import java.util.ArrayList;
 
 final public class Range {
 	
-	private int xMax;
-	private int xMin;
-	private int yMax;
-	private int yMin;
+	private int rowMax;
+	private int rowMin;
+	private int columnMax;
+	private int columnMin;
 	private ArrayList<Position> posList;
 
+	/**
+	 * Construct a immutable object Range which holds the corners of
+	 * two positions
+	 * @param a non null Position
+	 * @param b non null Position
+	 * @throws IllegalPosition 
+	 */
 	public Range(final Position a, final Position b) {
-		xMin = Math.min(a.getRow(), b.getRow()); 
-		xMax = Math.max(a.getRow(), b.getRow()); 
-		yMin = Math.min(a.getColumn(), b.getColumn()); 
-		yMax = Math.max(a.getColumn(), b.getColumn()); 
-		
-		posList = new ArrayList<Position>();
-		addPositions();
+		rowMin = Math.min(a.getRow(), b.getRow()); 
+		rowMax = Math.max(a.getRow(), b.getRow()); 
+		columnMin = Math.min(a.getColumn(), b.getColumn()); 
+		columnMax = Math.max(a.getColumn(), b.getColumn()); 
 	}
 	
-	private void addPositions() {
-		int x = xMin;
-		int y = yMin;
-		while (y <= yMax) {
-			if (x <= xMax) {
-				posList.add(new Position(x, y));
-				x++;
-			}
-			else {
-				x = xMin;
-				y++;
-			}
-		}
-	}
-	
+	/**
+	 * Returns a list of positions. 
+	 * Creates a new list if it hasn't been used before
+	 * @return ArracolumnList<Position> of all Positions in ranges
+	 */
 	public ArrayList<Position> getPositionsInRange() {
+		if (posList == null) {
+			posList = new ArrayList<Position>();
+			addPositions();
+		}
 		return posList;	
 	}
 
+	/**
+	 * Adds all position in a Range to posList
+	 */
+	private void addPositions() {
+		int row = rowMin;
+		int column = columnMin;
+		while (column <= columnMax) {
+			if (row <= rowMax) {
+				posList.add(new Position(column, row));
+				row++;
+			}
+			else {
+				row = rowMin;
+				column++;
+			}
+		}
+	}
 }

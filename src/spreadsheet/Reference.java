@@ -1,22 +1,36 @@
 package spreadsheet;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import spreadsheet.exception.CycleException;
 import spreadsheet.textual.Text;
 
 public final class Reference
-    extends Expression {
+    extends Expression implements Iterable<Expression> {
 
   private final Spreadsheet spreadsheet;
+  private final Range range;
   private final Position position;
 
+  public Reference(final Spreadsheet spreadsheet, final Range range) {
+    super(GenericType.instance);
+    this.spreadsheet = spreadsheet;
+    this.range = range;
+    this.position = null;
+
+  }
+  
   public Reference(final Spreadsheet spreadsheet, final Position position) {
     super(GenericType.instance);
     this.spreadsheet = spreadsheet;
     this.position = position;
+    this.range = null;
+
   }
 
   private Expression getExpression() {
-    final Expression expression = this.spreadsheet.get(this.position);
+    final Expression expression = this.iterator().next();
     if (expression == null) {
       return new Text("");
     }
@@ -62,12 +76,21 @@ public final class Reference
     final Reference otherReference = (Reference)other;
     return
         otherReference.spreadsheet.equals(this.spreadsheet) &&
-        otherReference.position.equals(this.position);
+        otherReference.range.equals(range);
   }
   
   @Override
   public boolean refersTo(final Spreadsheet spreadsheet) {
     return this.spreadsheet.equals(spreadsheet);
+  }
+
+  @Override
+  public Iterator<Expression> iterator() {
+	  ArrayList<Expression> list = new ArrayList<Expression>();
+	for (Position pos : range.getPositionsInRange()) {
+		list.add(this.spreadsheet.get(pos));
+	}
+	return list.iterator();
   }
 
 }

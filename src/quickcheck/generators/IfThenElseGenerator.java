@@ -3,7 +3,7 @@ package quickcheck.generators;
 import quickcheck.ExpressionGenerator;
 import quickcheck.ExpressionInfo;
 import spreadsheet.Expression;
-import spreadsheet.logical.IfThenElse;
+import spreadsheet.IfThenElse;
 
 public class IfThenElseGenerator extends ExpressionGenerator {
 

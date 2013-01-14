@@ -10,8 +10,8 @@ public final class PositionGenerator
   private final IntegerGenerator columnGen, rowGen;
 
   public PositionGenerator() {
-    this.columnGen = new IntegerGenerator();
-    this.rowGen = new IntegerGenerator();
+    this.columnGen = new IntegerGenerator(0, Integer.MAX_VALUE - 1);
+    this.rowGen = new IntegerGenerator(0, Integer.MAX_VALUE - 1);
   }
 
   public Position next() {
