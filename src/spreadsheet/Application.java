@@ -20,6 +20,7 @@ public final class Application {
   private ArrayList<Spreadsheet> spreadsheets;
   private Spreadsheet worksheet;
   private Position currentPosition;
+  private Range currentRange;
 
   public final Observable<Expression> showEvent;
   public final Observable<Exception> errorEvent;
@@ -28,11 +29,13 @@ public final class Application {
   public final Observable<Spreadsheet> newSpreadsheetEvent;
   public final Observable<Spreadsheet> removeSpreadsheetEvent;
 
+
   private Application() {
     this.worksheet = new Spreadsheet();
     this.spreadsheets = new ArrayList<Spreadsheet>();
     this.spreadsheets.add(this.worksheet);
     this.currentPosition = new Position(0, 0);
+    this.currentRange = new Range(currentPosition, currentPosition);
 
     this.showEvent = new Observable<Expression>() { };
     this.errorEvent = new Observable<Exception>() { };
@@ -89,6 +92,24 @@ public final class Application {
         continue;
       }
     }
+  }
+  
+  /**
+   * Adds a Spreadsheet to the application
+   * used in undoing of removing a Spreadsheet
+   * @param newSpreadsheet
+ * @throws SpreadsheetAlreadyExists 
+   */
+  public void addSpreadsheet(final Spreadsheet newSpreadsheet) 
+		  throws SpreadsheetAlreadyExists {
+	  
+	  final String name = newSpreadsheet.getName();
+	  if (this.getSpreadsheet(name) != null) {
+		  throw new SpreadsheetAlreadyExists(name);
+	  }
+	  
+	  this.spreadsheets.add(newSpreadsheet);
+	  this.newSpreadsheetEvent.notifyObservers(newSpreadsheet);
   }
 
   /** Removes the given spreadsheet.
@@ -271,6 +292,21 @@ public final class Application {
    */
   public void printWorksheet() {
     System.out.println(this.worksheet.getName());
+  }
+  
+  /**
+   * Set current Range
+   * @param range
+   */
+  public void setCurrentRange(Range range) {
+	    this.currentRange = range;	
+  }
+  
+  /**
+   * @return Guaranteed not null.
+   */
+  public Range getCurrentRange() {
+    return this.currentRange;
   }
 
 }

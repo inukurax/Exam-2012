@@ -13,12 +13,23 @@ public final class Set
   private final Position position;
   private Expression lastExp;
   
+  /**
+   * Set command for GUI
+   * set Expression at Position in current worksheet.
+   * @param expression to set at current position
+   */
   public Set(final Expression expression) {
 		 this.expression = expression;
 		 this.position = null;
 		 this.lastExp = Application.instance.get();
   }
 
+  /**
+   * Set command for Cli
+   * set Expression at Position in current worksheet.
+   * @param position to set at.
+   * @param expression to set.
+   */
   public Set(final Position position, final Expression expression) {
       this.position = position;
 	  this.expression = expression;

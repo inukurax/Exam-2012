@@ -9,6 +9,7 @@ import gui.language.Language;
 import gui.control.ExitListener;
 import gui.control.NewSpreadsheetListener;
 import gui.control.RemoveSpreadsheetListener;
+import gui.control.UndoListener;
 
 /** The main frame menu bar.
  * <p>
@@ -24,6 +25,7 @@ public final class MenuBar
   private MenuBar() {
     super();
     this.add(this.newFileMenu());
+    this.add(this.newEditMenu());
     this.add(this.newSpreadsheetMenu());
   }
 
@@ -32,7 +34,19 @@ public final class MenuBar
     menu.add(this.newExitMenuItem());
     return menu;
   }
+  
+  private JMenu newEditMenu() {
+	    final JMenu menu = new JMenu(Language.instance.edit());
+	    menu.add(this.newUndoMenuItem());
+	    return menu;
+	  }
 
+  private JMenuItem newUndoMenuItem() {
+	    final JMenuItem menuItem = new JMenuItem(Language.instance.undo());
+	    menuItem.addActionListener(UndoListener.instance);
+	    return menuItem;
+	  }
+  
   private JMenuItem newExitMenuItem() {
     final JMenuItem menuItem = new JMenuItem(Language.instance.exit());
     menuItem.addActionListener(ExitListener.instance);

@@ -28,4 +28,14 @@ final class English extends LanguageSpecification {
     return "Remove spreadsheet";
   }
 
+@Override
+public String edit() {
+	return "Edit";
+}
+
+@Override
+public String undo() {
+	return "Undo";
+}
+
 }

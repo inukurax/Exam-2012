@@ -52,6 +52,8 @@ final public class Range {
 	 * @return String of description of Range.
 	 */
 	public String getDescription() {
+	    if (posA.isEqualTo(posB))
+	    	return posA.getDescription();
 	    final StringBuilder builder = new StringBuilder();
 		builder.append(this.posA.getDescription());
 		builder.append(":");
@@ -100,11 +102,18 @@ final public class Range {
 
 	}
 	
+	/**
+	 * TrimSize if columnMax is larger than
+	 * might be redundant
+	 * @param type
+	 * @return
+	 */
 	public boolean trimSize(Type type) {
 		if (type.equals(Type.COLUMN))
 			return (columnMax > 1000);
 		return (rowMax > 1000);
 	}
+	
 	private enum Type {
 		COLUMN, ROW
 	}

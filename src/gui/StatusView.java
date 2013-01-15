@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import spreadsheet.Application;
 import spreadsheet.Observer;
 import spreadsheet.Position;
 
@@ -88,7 +89,7 @@ public final class StatusView
 
         @Override
         public void run() {
-          PositionView.this.setText(description);
+          PositionView.this.setText(Application.instance.getCurrentRange().getDescription());
         }
         
       });

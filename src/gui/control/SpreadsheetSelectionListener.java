@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionListener;
 
 import spreadsheet.Application;
 import spreadsheet.Position;
+import spreadsheet.Range;
 
 /** A listener for changing selections in {@link gui.SpreadsheetView}.
  */
@@ -15,7 +16,7 @@ public final class SpreadsheetSelectionListener
     implements ListSelectionListener {
   
   private final SpreadsheetView view;
-
+  
   public SpreadsheetSelectionListener(final SpreadsheetView view) {
     this.view = view;
   }
@@ -31,13 +32,18 @@ public final class SpreadsheetSelectionListener
     final int[] selectedColumns = view.getSelectedColumns();
 
     if (selectedRows.length > 1 || selectedColumns.length > 1) {
-      return;
-    }
-
+        return;
+      }
     final Position position =
       new Position(selectedColumns[0], selectedRows[0]);
-
+    
+    final Position position2 =
+    	      new Position(selectedColumns[selectedColumns.length - 1], 
+    	    		  selectedRows[selectedRows.length - 1]);
+    final Range range = new Range(position, position2);
+    	  
     Application.instance.setCurrentPosition(position);
+    Application.instance.setCurrentRange(range);
     Application.instance.showCurrentExpression();
   }
 

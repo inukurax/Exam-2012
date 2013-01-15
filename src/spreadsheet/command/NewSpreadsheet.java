@@ -1,5 +1,6 @@
 package spreadsheet.command;
 
+import gui.StatusView;
 import spreadsheet.Application;
 import spreadsheet.Change;
 import spreadsheet.History;
@@ -12,6 +13,7 @@ public final class NewSpreadsheet
   private Spreadsheet sheet;
 
   public void execute() {
+  	StatusView.instance.errorView.setText("");
 	  sheet = Application.instance.forceNewSpreadsheet();
 	    History.instance.push(this);
   }

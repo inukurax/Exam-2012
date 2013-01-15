@@ -8,9 +8,13 @@ public abstract class LanguageSpecification {
 
   public abstract String file();
   public abstract String exit();
+  public abstract String edit();
+  public abstract String undo();
   
   public abstract String spreadsheet();
   public abstract String newSpreadsheet();
   public abstract String removeSpreadsheet();
+
+
 
 }

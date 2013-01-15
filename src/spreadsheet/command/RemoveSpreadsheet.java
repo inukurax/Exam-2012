@@ -1,10 +1,10 @@
 package spreadsheet.command;
 
+import gui.StatusView;
 import spreadsheet.Application;
 import spreadsheet.Change;
 import spreadsheet.History;
 import spreadsheet.Spreadsheet;
-import spreadsheet.exception.NoSuchSpreadsheet;
 import spreadsheet.exception.OutcastReferenced;
 import spreadsheet.exception.SpreadsheetAlreadyExists;
 
@@ -14,6 +14,7 @@ public final class RemoveSpreadsheet
 	private Spreadsheet lastSheet;
 
   public void execute() {
+	  	StatusView.instance.errorView.setText("");
 	  lastSheet = Application.instance.getWorksheet();
     try {
       Application.instance.removeSpreadsheet();
@@ -26,12 +27,8 @@ public final class RemoveSpreadsheet
 	@Override
 	public void undo() {
 		try {
-			Spreadsheet sheet = Application.instance.newSpreadsheet();
-			sheet.setName(lastSheet.getName());
-			Application.instance.changeWorksheet(sheet.getName());
+			Application.instance.addSpreadsheet(lastSheet);
 		} catch (SpreadsheetAlreadyExists e) {
-		      Application.instance.reportError(e);
-		} catch (NoSuchSpreadsheet e) {
 		      Application.instance.reportError(e);
 		}
 	}
