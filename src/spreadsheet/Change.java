@@ -2,6 +2,6 @@ package spreadsheet;
 
 public interface Change {
 	
-	public void undo();
-	
+	public abstract void undo();
+	public abstract String getDescription();
 }

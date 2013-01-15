@@ -8,10 +8,12 @@ import gui.StatusView;
 import gui.TabbedView;
 
 import spreadsheet.Application;
+import spreadsheet.command.Set;
 import ui.ExpressionInterpreter;
 
 /** A listener for the Enter key in the {@link gui.ExpressionView}.
- *  added: now also repaints TabbedView
+ *  changes: now also repaints TabbedView
+ *  and uses Set() Command for setting Expression
  */
 public class ExpressionKeyListener implements KeyListener {
 
@@ -22,7 +24,8 @@ public class ExpressionKeyListener implements KeyListener {
     }
     StatusView.instance.errorView.clear();
     try {
-      Application.instance.set(ExpressionInterpreter.interpret(ExpressionView.instance.getText()));
+      new Set(ExpressionInterpreter.interpret(
+    		  ExpressionView.instance.getText())).execute();
       TabbedView.instance.repaint();
     } catch (Exception e) {
       Application.instance.reportError(e);

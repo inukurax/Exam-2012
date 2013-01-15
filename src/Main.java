@@ -1,17 +1,12 @@
 import spreadsheet.Application;
-import spreadsheet.Change;
 import spreadsheet.Expression;
 import spreadsheet.History;
 import spreadsheet.Position;
 import spreadsheet.Range;
 import spreadsheet.Reference;
-import spreadsheet.Spreadsheet;
 import spreadsheet.arithmetic.Add;
 import spreadsheet.arithmetic.Int;
 import spreadsheet.arithmetic.Sum;
-import spreadsheet.command.Get;
-import spreadsheet.command.ListSpreadsheets;
-import spreadsheet.command.NewSpreadsheet;
 import spreadsheet.command.Set;
 import spreadsheet.exception.CycleException;
 import spreadsheet.textual.Concat;
@@ -42,7 +37,6 @@ class Main {
 
     spreadsheet.set(posB, new Int(4));
     spreadsheet.set(new Position(3,2), new Sum (new Reference(spreadsheet.getWorksheet(), new Range(posA, posB))));
-    spreadsheet.set(new Position(2,5), new Int(8));
 
     spreadsheet.set(new Position(10, 1),
       new Reference(spreadsheet.getWorksheet(), new Position(10, 2)));
@@ -54,13 +48,11 @@ class Main {
    // test for undo
   Set first = new Set(new Position(2,5), new Int(10));
   first.execute();
-  History.instance.push(first);
 
    Expression test4 = spreadsheet.get(new Position(2,5));
-   System.out.println(test4.getDescription());
+   System.out.println("10 = " + test4.getDescription());
    Set second = new Set(new Position(2,5), new Int(8));
    second.execute();
-   History.instance.push(second);
 
    Expression test2 = spreadsheet.get(new Position(2,5));
    System.out.println(test2.getDescription());
@@ -69,6 +61,12 @@ class Main {
    History.instance.pop().undo();
    Expression test3 = spreadsheet.get(new Position(2,5));
    System.out.println(test3.getDescription());
+   History.instance.pop().undo();
+   Expression test5 = spreadsheet.get(new Position(2,5));
+
+   System.out.println(test5.getDescription());
+
+
   }
 
 }

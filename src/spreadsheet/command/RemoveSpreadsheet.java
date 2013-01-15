@@ -2,6 +2,7 @@ package spreadsheet.command;
 
 import spreadsheet.Application;
 import spreadsheet.Change;
+import spreadsheet.History;
 import spreadsheet.Spreadsheet;
 import spreadsheet.exception.NoSuchSpreadsheet;
 import spreadsheet.exception.OutcastReferenced;
@@ -16,6 +17,7 @@ public final class RemoveSpreadsheet
 	  lastSheet = Application.instance.getWorksheet();
     try {
       Application.instance.removeSpreadsheet();
+      History.instance.push(this);
     } catch (OutcastReferenced e) {
       Application.instance.reportError(e);
     }
@@ -32,5 +34,10 @@ public final class RemoveSpreadsheet
 		} catch (NoSuchSpreadsheet e) {
 		      Application.instance.reportError(e);
 		}
+	}
+
+	@Override
+	public String getDescription() {
+		return "Undo: Removed Spreadsheet";
 	}
 }

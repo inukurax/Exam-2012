@@ -22,8 +22,6 @@ public class RangeTest {
 		this.rangeGen10000 = new RangeGenerator(0, 10000);
 		this.rangeGen100000 = new RangeGenerator(0, 100000);
 		this.rangeGenMax = new RangeGenerator(0, Integer.MAX_VALUE - 1);
-
-
 	}
 
   @Test
