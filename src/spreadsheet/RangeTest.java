@@ -10,7 +10,6 @@ import quickcheck.Values;
  */
 public class RangeTest {
 	
-		
 	private RangeGenerator rangeGen10000;
 	private RangeGenerator rangeGen100000;
 	private RangeGenerator rangeGen1000;
@@ -24,7 +23,7 @@ public class RangeTest {
 		this.rangeGenMax = new RangeGenerator(0, Integer.MAX_VALUE - 1);
 	}
 
-  @Test
+  @Test(timeout=10000)
   public void test() {
 	  
 //	    final Values<Range> a1000 =  new Values<Range>(this.rangeGen1000);

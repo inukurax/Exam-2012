@@ -1,7 +1,6 @@
 package spreadsheet;
 
 import java.util.ArrayList;
-import java.util.List;
 
 final public class Range {
 	
@@ -36,12 +35,9 @@ final public class Range {
 	 * columnMax * rowMax (will ignore if row/columMax is 0)
 	 * @return ArrayList<Position> of all Positions in the Range
 	 */
-	public List<Position> getPositionsInRange() {
+	public ArrayList<Position> getPositionsInRange() {
 		if (posList == null) {
-			int r = (rowMax > 0) ? rowMax : 1;
-			int c = (columnMax > 0) ? columnMax : 1;
-			int capacity = r * c;
-			posList = new ArrayList<Position>(capacity);
+			posList = new ArrayList<Position>();
 			addPositions();
 		}
 		return posList;	
@@ -71,9 +67,13 @@ final public class Range {
 		return this.posA.isEqualTo(posB);
 	}
 	
-	public Position getStartPos() {
+	public Position getPosA() {
 			return posA;
 	}
+	
+	public Position getPosB() {
+		return posB;
+}
 
 	/**
 	 * Creates a string to describe a Range "A0:B1"
