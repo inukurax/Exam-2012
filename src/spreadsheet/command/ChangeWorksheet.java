@@ -7,12 +7,9 @@ public final class ChangeWorksheet
     extends Command {
 
   private final String name;
-  private final String current;
-
 
   /* Assumes that name is not null. */
   public ChangeWorksheet(final String name) {
-	this.current =Application.instance.getWorksheet().getName();
     this.name = name;
   }
 

@@ -11,7 +11,7 @@ final public class Range {
 	private int columnMin;
 	private Position posA;
 	private Position posB;
-	private List<Position> posList;
+	private ArrayList<Position> posList;
 
 	/**
 	 * Construct a immutable object Range which holds the corners of
@@ -32,12 +32,17 @@ final public class Range {
 	/**
 	 * Returns a list of positions in the Range. 
 	 * Creates a new list if it hasn't been used before
+	 * its creates with initial size of columnMax * rowMax (if rowMax not is 0)
 	 * @return ArrayList<Position> of all Positions in the Range
 	 */
 	public List<Position> getPositionsInRange() {
 		if (posList == null) {
-			posList = new ArrayList<Position>();
-			addPositions();
+			int r = (rowMax != 0) ? rowMax : 1;
+			int c = (columnMax != 0) ? columnMax : 1;
+			int capacity = r * c;
+			posList = new ArrayList<Position>(capacity);
+			Type type = rowMax > columnMax ? Type.ROW : Type.COLUMN;
+			addPositions(type);
 		}
 		return posList;	
 	}
@@ -51,24 +56,56 @@ final public class Range {
 		builder.append(this.posA.getDescription());
 		builder.append(":");
 		builder.append(this.posB.getDescription());
+		
 		return builder.toString();
 	}
 
 	/**
-	 * Adds all position in a Range to posList
+	 * Adds all positions in a Range to an ArrayList
+	 * @param type of the largest, of either Column or Row,
+	 * for more efficient method
 	 */
-	private void addPositions() {
+	private void addPositions(Type type) {
 		int row = rowMin;
 		int column = columnMin;
-		while (column <= columnMax) {
-			if (row <= rowMax) {
-				posList.add(new Position(column, row));
-				row++;
-			}
-			else {
-				row = rowMin;
-				column++;
+		
+		if (type.equals(Type.ROW)) {
+			while (column <= columnMax) {
+				if (row <= rowMax) {
+					posList.add(new Position(column, row));
+					row++;
+				}
+				else {
+					if (trimSize(type))
+						posList.trimToSize();
+					row = rowMin;
+					column++;
+				}
 			}
 		}
+		else {
+			while (row <= rowMax) {
+				if (column <= columnMax) {
+					posList.add(new Position(column, row));
+					column++;
+				}
+				else {
+					if (trimSize(type))
+						posList.trimToSize();
+					column = columnMin;
+					row++;
+				}
+			}
+		}
+
+	}
+	
+	public boolean trimSize(Type type) {
+		if (type.equals(Type.COLUMN))
+			return (columnMax > 1000);
+		return (rowMax > 1000);
+	}
+	private enum Type {
+		COLUMN, ROW
 	}
 }

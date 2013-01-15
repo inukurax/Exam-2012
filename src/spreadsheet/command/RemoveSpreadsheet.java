@@ -24,7 +24,7 @@ public final class RemoveSpreadsheet
 	public void undo() {
 		try {
 			Spreadsheet sheet = Application.instance.newSpreadsheet();
-			Application.instance.changeWorksheet(sheet.getName());
+			Application.instance.changeWorksheet(current.getName());
 		} catch (SpreadsheetAlreadyExists e) {
 		      Application.instance.reportError(e);
 		} catch (NoSuchSpreadsheet e) {
