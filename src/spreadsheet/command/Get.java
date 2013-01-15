@@ -15,11 +15,4 @@ public final class Get
   public void execute() {
     Application.instance.showExpression(this.position);
   }
-
-	@Override
-	public void undo() {
-		// no undo needed.
-		
-	}
-
 }

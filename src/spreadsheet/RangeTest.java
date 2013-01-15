@@ -29,26 +29,26 @@ public class RangeTest {
   @Test
   public void test() {
 	  
-	    final Values<Range> a1000 =  new Values<Range>(this.rangeGen1000);
-	    for (Range range : a1000) {
-	    	range.getPositionsInRange();
-	    }
-	 
+//	    final Values<Range> a1000 =  new Values<Range>(this.rangeGen1000);
+//	    for (Range range : a1000) {
+//	    	System.out.println("Size:" + range.getPositionsInRange().size());
+//	    }
+//	 
 	    final Values<Range> a10000 =  new Values<Range>(this.rangeGen10000);
 	    for (Range range : a10000) {
-	    	range.getPositionsInRange();
+	    	System.out.println("Size:" + range.getPositionsInRange().size());
 
 	    }
 	    
-	    final Values<Range> a100000 =  new Values<Range>(this.rangeGen100000);
-	    for (Range range : a100000) {
-	    	range.getPositionsInRange();
-	    }
-	    
-	    final Values<Range> max =  new Values<Range>(this.rangeGenMax);
-	    for (Range range : max) {
-	    	range.getPositionsInRange();
-	    }
+//	    final Values<Range> a100000 =  new Values<Range>(this.rangeGen100000);
+//	    for (Range range : a100000) {
+//	    	System.out.println("Size:" + range.getPositionsInRange().size());
+//	    }
+//	    
+//	    final Values<Range> max =  new Values<Range>(this.rangeGenMax);
+//	    for (Range range : max) {
+//	    	System.out.println("Size:" + range.getPositionsInRange().size());
+//	    }
 
   }
   

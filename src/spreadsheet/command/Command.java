@@ -1,9 +1,8 @@
 package spreadsheet.command;
 
-import spreadsheet.Change;
+public abstract class Command {
+	
 
-public abstract class Command implements Change {
-
-  public abstract void execute();
+	public abstract void execute();
 
 }

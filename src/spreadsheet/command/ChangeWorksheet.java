@@ -22,10 +22,4 @@ public final class ChangeWorksheet
     }
   }
 
-	@Override
-	public void undo() {
-		// should not be able to undo changeWorksheet
-		// should always be current tab.
-	}
-
 }

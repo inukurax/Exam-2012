@@ -1,18 +1,19 @@
 package spreadsheet.command;
 
 import spreadsheet.Application;
+import spreadsheet.Change;
 import spreadsheet.Spreadsheet;
 import spreadsheet.exception.NoSuchSpreadsheet;
 import spreadsheet.exception.OutcastReferenced;
 import spreadsheet.exception.SpreadsheetAlreadyExists;
 
 public final class RemoveSpreadsheet
-    extends Command {
+    extends Command implements Change {
 	
-	private Spreadsheet current;
+	private Spreadsheet lastSheet;
 
   public void execute() {
-	  current = Application.instance.getWorksheet();
+	  lastSheet = Application.instance.getWorksheet();
     try {
       Application.instance.removeSpreadsheet();
     } catch (OutcastReferenced e) {
@@ -24,12 +25,12 @@ public final class RemoveSpreadsheet
 	public void undo() {
 		try {
 			Spreadsheet sheet = Application.instance.newSpreadsheet();
-			Application.instance.changeWorksheet(current.getName());
+			sheet.setName(lastSheet.getName());
+			Application.instance.changeWorksheet(sheet.getName());
 		} catch (SpreadsheetAlreadyExists e) {
 		      Application.instance.reportError(e);
 		} catch (NoSuchSpreadsheet e) {
 		      Application.instance.reportError(e);
 		}
 	}
-
 }

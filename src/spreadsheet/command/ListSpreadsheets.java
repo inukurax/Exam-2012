@@ -8,10 +8,4 @@ public final class ListSpreadsheets
   public void execute() {
     Application.instance.printSpreadsheets();
   }
-
-	@Override
-	public void undo() {
-		
-	}
-
 }

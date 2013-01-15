@@ -17,10 +17,4 @@ public final class Fail
   public void execute() {
     Application.instance.reportError(this.message);
   }
-	
-	@Override
-	public void undo() {
-		//should do nothing
-	}
-
 }

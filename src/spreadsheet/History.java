@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class History {
 	
-	public final History instance = new History(20);
+	public static final History instance = new History(20);
 	
 	private int current = 0;
 	private ArrayList<Change> changeList;

@@ -30,10 +30,4 @@ public final class Save
       Application.instance.reportError(e.getMessage());
     }
   }
-
-	@Override
-	public void undo() {
-		// for later implementation
-	}
-
 }

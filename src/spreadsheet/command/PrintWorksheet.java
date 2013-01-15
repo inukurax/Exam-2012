@@ -8,10 +8,4 @@ public final class PrintWorksheet
   public void execute() {
     Application.instance.printWorksheet();
   }
-
-	@Override
-	public void undo() {
-		// TODO Auto-generated method stub
-	}
-
 }

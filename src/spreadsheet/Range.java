@@ -40,7 +40,7 @@ final public class Range {
 			int r = (rowMax != 0) ? rowMax : 1;
 			int c = (columnMax != 0) ? columnMax : 1;
 			int capacity = r * c;
-			posList = new ArrayList<Position>(capacity);
+			posList = new ArrayList<Position>();
 			Type type = rowMax > columnMax ? Type.ROW : Type.COLUMN;
 			addPositions(type);
 		}

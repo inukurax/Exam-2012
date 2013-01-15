@@ -9,9 +9,5 @@ public final class Exit
     Application.instance.exit();
   }
 
-	@Override
-	public void undo() {
-		
-	}
 
 }
