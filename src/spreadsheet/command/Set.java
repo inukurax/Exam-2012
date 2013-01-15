@@ -1,5 +1,6 @@
 package spreadsheet.command;
 
+import gui.TabbedView;
 import spreadsheet.Application;
 import spreadsheet.Change;
 import spreadsheet.Expression;
@@ -11,7 +12,7 @@ public final class Set
 
   private final Expression expression;
   private final Position position;
-  private Expression lastExp;
+  private final Expression lastExp;
   
   /**
    * Set command for GUI
@@ -20,7 +21,7 @@ public final class Set
    */
   public Set(final Expression expression) {
 		 this.expression = expression;
-		 this.position = null;
+		 this.position = Application.instance.getCurrentPosition();
 		 this.lastExp = Application.instance.get();
   }
 
@@ -37,28 +38,20 @@ public final class Set
 }
   @Override
   public void execute() {
-	if (this.position == null)
-		 Application.instance.set(expression);
-	else 
-		 Application.instance.set(position, expression);
-
-	 History.instance.push(this);
+	  Application.instance.set(position, expression);
+	  History.instance.push(this);
   }
 
 	@Override
 	public void undo() {
-		if (this.position == null)
-			Application.instance.set(this.lastExp);
-		else
 			Application.instance.set(position, this.lastExp);
+		    Application.instance.showExpression(position);
+		    TabbedView.instance.repaint();
 	}
 
 	@Override
 	public String getDescription() {
-		Position location = (position == null) ? 
-				Application.instance.getCurrentPosition()
-				: position;		
 		return String.format("Undo: Set %s at %s", expression.getDescription(),
-				location.getDescription());
+				position.getDescription());
 	}
 }

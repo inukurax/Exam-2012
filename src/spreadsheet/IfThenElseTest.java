@@ -12,7 +12,6 @@ import quickcheck.generators.IfThenElseGenerator;
  */
 public class IfThenElseTest {
 	
-	
 	  private ExpressionGenerator ifThenElseGen;
 		
 	  @org.junit.Before
@@ -49,7 +48,7 @@ public class IfThenElseTest {
 	  		      System.err.println("Expected: " + expected + " - got : " + actual);
 
 	  		      
-	  		    }
+	  	    }
 	  	    
 	  	    for (final ExpressionInfo info : infos) {
 	  		      final boolean expected = info.boolResult();
@@ -62,7 +61,6 @@ public class IfThenElseTest {
 	  		      System.err.println("IfThenElse.toBoolean() failed. " + info);
 	  		      System.err.println("Expected: " + expected + " - got : " + actual);
 
-	  		    }
-  }
-  
+	  	    }
+  	}
 }
