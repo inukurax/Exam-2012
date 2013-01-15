@@ -7,12 +7,14 @@ import java.awt.event.ActionListener;
 
 import spreadsheet.Application;
 import spreadsheet.Expression;
+import spreadsheet.Position;
 import spreadsheet.command.Set;
 
 public class PasteListener implements ActionListener {
 	
 	public final static PasteListener instance = new PasteListener();
 	public Expression copy;
+	private Position position;
 	
 	private void getCopy() {
 		copy = CopyListener.instance.getCopy();

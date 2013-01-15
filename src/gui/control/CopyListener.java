@@ -7,26 +7,37 @@ import java.awt.event.ActionListener;
 
 import spreadsheet.Application;
 import spreadsheet.Expression;
+import spreadsheet.Position;
 import spreadsheet.exception.InvalidReference;
 
-public class CopyListener implements ActionListener {
+final public class CopyListener implements ActionListener {
 	
 	public final static CopyListener instance = new CopyListener();
-	public Expression copy;
+	
+	private Expression copy;
+	private Position position;
 	
 	private CopyListener() {
-		copy = null;
+		this.copy = null;
+		this.position = Application.instance.getCurrentPosition();
 	}
 	
 	public Expression getCopy() {
 		return copy;
+	}
+	/**
+	 * Returns the Position copying from.
+	 * @return Guaranteed non null Position
+	 */
+	public Position getPosition() {
+		return Application.instance.getCurrentPosition();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		copy = Application.instance.get();	
 		try {
-				copy.copy(1, 0);
+			copy = copy.copy(1, 0); // should be right offsets
 		} catch (InvalidReference e) {
 			StatusView.instance.errorView.setText(e.getMessage());
 		}

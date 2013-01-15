@@ -15,6 +15,7 @@ public final class Reference
   private final Range range;
   private Position position;
   private boolean onePos;
+  private boolean isSum = false;
 
   public Reference(final Spreadsheet spreadsheet, final Range range) {
     super(GenericType.instance);
@@ -33,13 +34,15 @@ public final class Reference
   }
 
   private Expression getExpression() {
-	  if (this.isRange())
+	  boolean mouseMarksRange = Application.instance
+			  .getCurrentRange().isOnePosition();
+	  if ((this.isRange() && !this.isSum()) || !mouseMarksRange)
 		  throw new RangeReferenceException();
-    final Expression expression = iterator().next();
-    if (expression == null) {
-      return new Text("");
-    }
-    return expression;
+	  final Expression expression = iterator().next();
+	  if (expression == null) {
+		  return new Text("");
+	  }
+	  return expression;
   }
 
   public boolean toBoolean() {
@@ -89,6 +92,7 @@ public final class Reference
 	  return !this.onePos;
   }
 
+  @Override
   public String getDescription() {
 	final String positionDescription = isRange() ? 
 			this.range.getDescription()
@@ -119,7 +123,15 @@ public final class Reference
     return this.spreadsheet.equals(spreadsheet);
   }
 
-  @Override
+  public boolean isSum() {
+	return isSum;
+}
+
+public void setSum(boolean isSum) {
+	this.isSum = isSum;
+}
+
+@Override
   public Iterator<Expression> iterator() {
 	  ArrayList<Expression> list = new ArrayList<Expression>();
 	for (Position pos : range.getPositionsInRange()) {
