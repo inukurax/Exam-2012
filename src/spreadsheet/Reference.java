@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import spreadsheet.exception.CycleException;
+import spreadsheet.exception.InvalidReference;
 import spreadsheet.exception.RangeReferenceException;
 import spreadsheet.textual.Text;
 
@@ -20,7 +21,7 @@ public final class Reference
     this.spreadsheet = spreadsheet;
     this.range = range;
     this.onePos = range.isOnePosition();
-    this.position = onePos ? range.getStartPos() : Application.instance.getCurrentPosition();
+    this.position = onePos ? range.getPosA() : Application.instance.getCurrentPosition();
   }
   
   public Reference(final Spreadsheet spreadsheet, final Position position) {
@@ -59,6 +60,31 @@ public final class Reference
       throw new CycleException(new Path(this, path));
     }
     getExpression().checkAcyclic(new Path(this, path));
+  }
+  
+  @Override
+  public Expression copy(final int columnOffset, final int rowOffset) 
+		  throws InvalidReference {
+	  Position refPosA = this.position;
+	  Position newRefPosA = new Position(refPosA.getColumn() + columnOffset,
+			  refPosA.getRow() + rowOffset);
+	  Position refPosB = range.getPosB();
+	  Position newRefPosB = new Position(refPosB.getColumn() + columnOffset,
+			  refPosB.getRow() + rowOffset);
+
+	  Position pos = Application.instance.getCurrentPosition();
+	  Position newPos = new Position(pos.getColumn() + columnOffset,
+			  pos.getRow() + rowOffset);
+	  
+	  if (newRefPosA.getColumn() < 0 || newRefPosA.getRow() < 0
+			  || newRefPosB.getColumn() < 0 || newRefPosB.getRow() < 0
+			  ||newPos.getColumn() < 0 || newPos.getRow() < 0)
+		  throw new InvalidReference();
+	  
+	  Application.instance.set(pos, new Text(""));
+	  Reference ref = new Reference(spreadsheet,new Range(newRefPosA, newRefPosB));
+	  Application.instance.set(newPos, ref);  
+	  return ref;
   }
   
   /**

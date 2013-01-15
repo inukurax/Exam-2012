@@ -38,4 +38,14 @@ public String undo() {
 	return "Undo";
 }
 
+@Override
+public String copy() {
+	return "Copy";
+}
+
+@Override
+public String paste() {
+	return "Paste";
+}
+
 }

@@ -6,6 +6,7 @@ import javax.swing.JMenuItem;
 
 import gui.language.Language;
 
+import gui.control.CopyListener;
 import gui.control.ExitListener;
 import gui.control.NewSpreadsheetListener;
 import gui.control.RemoveSpreadsheetListener;
@@ -38,12 +39,26 @@ public final class MenuBar
   private JMenu newEditMenu() {
 	    final JMenu menu = new JMenu(Language.instance.edit());
 	    menu.add(this.newUndoMenuItem());
+	    menu.add(this.newCopyMenuItem());
+	    menu.add(this.newPasteMenuItem());
 	    return menu;
 	  }
 
   private JMenuItem newUndoMenuItem() {
 	    final JMenuItem menuItem = new JMenuItem(Language.instance.undo());
 	    menuItem.addActionListener(UndoListener.instance);
+	    return menuItem;
+	  }
+  
+  private JMenuItem newCopyMenuItem() {
+	    final JMenuItem menuItem = new JMenuItem(Language.instance.copy());
+	    menuItem.addActionListener(CopyListener.instance);
+	    return menuItem;
+	  }
+  
+  private JMenuItem newPasteMenuItem() {
+	    final JMenuItem menuItem = new JMenuItem(Language.instance.paste());
+	    //menuItem.addActionListener(UndoListener.instance);
 	    return menuItem;
 	  }
   
