@@ -7,7 +7,10 @@ class Test {
 // FirstTest and SecondTest you'd like run, add the following:
 
     org.junit.runner.JUnitCore.main(
-        gui.PlotTest.class.getName()
+        gui.PlotTest.class.getName(),
+        spreadsheet.IfThenElseTest.class.getName(),
+        spreadsheet.RangeTest.class.getName(),
+        spreadsheet.UndoTest.class.getName()
     );
   }
 

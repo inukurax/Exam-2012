@@ -11,6 +11,10 @@ public abstract class ExpressionGenerator
 	protected final BooleanGenerator boolGen;
 	protected final StringGenerator strGen;
 	protected final ConstGenerator constGen;
+	protected final RangeGenerator rangeGen;
+	protected final PositionGenerator posGen;
+
+
 
 
 	/** ExpressionGenerator initializes the aforementioned variables */
@@ -19,6 +23,8 @@ public abstract class ExpressionGenerator
 	    this.boolGen = new BooleanGenerator();
 	    this.strGen = new StringGenerator();
 	    this.constGen = new ConstGenerator();
+	    this.rangeGen = new RangeGenerator();
+	    this.posGen = new PositionGenerator();
 	}
 	
 	/** To be defined in subclasses */

@@ -80,7 +80,6 @@ public final class Reference
 		  throw new InvalidReference();
 	  
 	  final Reference ref = new Reference(spreadsheet,new Range(newRefPosA, newRefPosB));
-	  System.out.println(ref.getDescription());
 	  return ref;
   }
   
