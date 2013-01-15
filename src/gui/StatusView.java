@@ -7,9 +7,8 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import spreadsheet.Application;
 import spreadsheet.Observer;
-import spreadsheet.Position;
+import spreadsheet.Range;
 
 /** The main frame status bar.
  * <p>
@@ -40,7 +39,7 @@ public final class StatusView
   
   public final class ErrorView
       extends JLabel
-      implements Observer<Exception> {
+      implements Observer<Exception>  {
     private static final long serialVersionUID = 1L;
 
     public ErrorView() {
@@ -74,7 +73,7 @@ public final class StatusView
   
   private final class PositionView
       extends JLabel
-      implements Observer<Position> {
+      implements Observer<Range> {
     private static final long serialVersionUID = 1L;
     private final static String NO_SELECTION = "-";
     
@@ -83,23 +82,23 @@ public final class StatusView
     }
     
     @Override
-    public void notify(final Position position) {
-      final String description = this.getDescription(position);
+    public void notify(final Range range) {
+      final String description = getDescription(range);
       java.awt.EventQueue.invokeLater(new Runnable() {
 
         @Override
         public void run() {
-          PositionView.this.setText(Application.instance.getCurrentRange().getDescription());
+          PositionView.this.setText(description);
         }
         
       });
     }
     
-    private String getDescription(final Position position) {
-      if (position == null) {
+    private String getDescription(final Range range) {
+      if (range == null) {
         return NO_SELECTION;
       }
-      return position.getDescription();
+      return range.getDescription();
     }
     
   }

@@ -32,24 +32,53 @@ final public class Range {
 	/**
 	 * Returns a list of positions in the Range. 
 	 * Creates a new list if it hasn't been used before
-	 * its creates with initial size of columnMax * rowMax (if rowMax not is 0)
+	 * its creates with initial size of 
+	 * columnMax * rowMax (will ignore if row/columMax is 0)
 	 * @return ArrayList<Position> of all Positions in the Range
 	 */
 	public List<Position> getPositionsInRange() {
 		if (posList == null) {
-			int r = (rowMax != 0) ? rowMax : 1;
-			int c = (columnMax != 0) ? columnMax : 1;
+			int r = (rowMax > 0) ? rowMax : 1;
+			int c = (columnMax > 0) ? columnMax : 1;
 			int capacity = r * c;
-			posList = new ArrayList<Position>();
-			Type type = rowMax > columnMax ? Type.ROW : Type.COLUMN;
-			addPositions(type);
+			posList = new ArrayList<Position>(capacity);
+			addPositions();
 		}
 		return posList;	
 	}
-	
+
 	/**
-	 * Creates a string to describe a Range (A0:B1)
-	 * @return String of description of Range.
+	 * Adds all positions in a Range to an ArrayList
+	 * @param type of the largest, of either Column or Row,
+	 * for more efficient method
+	 */
+	private void addPositions() {
+		int row = rowMin;
+		int column = columnMin;
+		while (column <= columnMax) {
+			if (row <= rowMax) {
+				posList.add(new Position(column, row));
+				row++;
+			}
+			else {
+				row = rowMin;
+				column++;
+			}
+		}
+	}
+	
+	public boolean isOnePosition() {
+		return this.posA.isEqualTo(posB);
+	}
+	
+	public Position getStartPos() {
+			return posA;
+	}
+
+	/**
+	 * Creates a string to describe a Range "A0:B1"
+	 * @return String of description of Range. 
+	 * If Range only hold one Position, then it returns String like "A0"
 	 */
 	public String getDescription() {
 	    if (posA.isEqualTo(posB))
@@ -61,60 +90,16 @@ final public class Range {
 		
 		return builder.toString();
 	}
-
-	/**
-	 * Adds all positions in a Range to an ArrayList
-	 * @param type of the largest, of either Column or Row,
-	 * for more efficient method
-	 */
-	private void addPositions(Type type) {
-		int row = rowMin;
-		int column = columnMin;
-		
-		if (type.equals(Type.ROW)) {
-			while (column <= columnMax) {
-				if (row <= rowMax) {
-					posList.add(new Position(column, row));
-					row++;
-				}
-				else {
-					if (trimSize(type))
-						posList.trimToSize();
-					row = rowMin;
-					column++;
-				}
-			}
-		}
-		else {
-			while (row <= rowMax) {
-				if (column <= columnMax) {
-					posList.add(new Position(column, row));
-					column++;
-				}
-				else {
-					if (trimSize(type))
-						posList.trimToSize();
-					column = columnMin;
-					row++;
-				}
-			}
-		}
-
-	}
 	
-	/**
-	 * TrimSize if columnMax is larger than
-	 * might be redundant
-	 * @param type
-	 * @return
-	 */
-	public boolean trimSize(Type type) {
-		if (type.equals(Type.COLUMN))
-			return (columnMax > 1000);
-		return (rowMax > 1000);
-	}
-	
-	private enum Type {
-		COLUMN, ROW
+	@Override
+	public boolean equals(Object other) {
+		if (other == null || (!(other instanceof Range))) {
+			return false;
+	    }
+	    final Range range = (Range)other;
+	    return (range.columnMax == this.columnMax &&
+	    		range.columnMin == this.columnMin &&
+	    		this.rowMax == range.rowMax &&
+	    		this.rowMin == range.rowMin);
 	}
 }

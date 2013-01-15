@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 
 import spreadsheet.Change;
 import spreadsheet.History;
-import spreadsheet.command.Exit;
 
 /** A listener for the undo menu item.
  * <p>

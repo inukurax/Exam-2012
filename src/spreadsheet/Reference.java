@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import spreadsheet.exception.CycleException;
+import spreadsheet.exception.RangeReferenceException;
 import spreadsheet.textual.Text;
 
 public final class Reference
@@ -11,14 +12,15 @@ public final class Reference
 
   private final Spreadsheet spreadsheet;
   private final Range range;
-  private Position position = null;
+  private Position position;
   private boolean onePos;
 
   public Reference(final Spreadsheet spreadsheet, final Range range) {
     super(GenericType.instance);
     this.spreadsheet = spreadsheet;
     this.range = range;
-    this.onePos = false;
+    this.onePos = range.isOnePosition();
+    this.position = onePos ? range.getStartPos() : Application.instance.getCurrentPosition();
   }
   
   public Reference(final Spreadsheet spreadsheet, final Position position) {
@@ -30,6 +32,8 @@ public final class Reference
   }
 
   private Expression getExpression() {
+	  if (this.isRange())
+		  throw new RangeReferenceException();
     final Expression expression = iterator().next();
     if (expression == null) {
       return new Text("");
@@ -38,20 +42,14 @@ public final class Reference
   }
 
   public boolean toBoolean() {
-	  if (this.isRange())
-		  throw new UnsupportedOperationException();
     return this.getExpression().toBoolean();
   }
 
   public int toInt() {
-	  if (this.isRange())
-		  throw new UnsupportedOperationException();
     return this.getExpression().toInt();
   }
 
   public String toString() {
-	  if (this.isRange())
-		  throw new UnsupportedOperationException();
     return this.getExpression().toString();
   }
 

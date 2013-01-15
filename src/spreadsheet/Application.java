@@ -24,7 +24,7 @@ public final class Application {
 
   public final Observable<Expression> showEvent;
   public final Observable<Exception> errorEvent;
-  public final Observable<Position> selectEvent;
+  public final Observable<Range> selectEvent;
   public final Observable<Spreadsheet> worksheetChangedEvent;
   public final Observable<Spreadsheet> newSpreadsheetEvent;
   public final Observable<Spreadsheet> removeSpreadsheetEvent;
@@ -39,7 +39,7 @@ public final class Application {
 
     this.showEvent = new Observable<Expression>() { };
     this.errorEvent = new Observable<Exception>() { };
-    this.selectEvent = new Observable<Position>() { };
+    this.selectEvent = new Observable<Range>() { };
     this.worksheetChangedEvent = new Observable<Spreadsheet>() { };
     this.newSpreadsheetEvent = new Observable<Spreadsheet>() { };
     this.removeSpreadsheetEvent = new Observable<Spreadsheet>() { };
@@ -57,7 +57,6 @@ public final class Application {
    */
   public void setCurrentPosition(final Position position) {
     this.currentPosition = position;
-    this.selectEvent.notifyObservers(position);
   }
 
   /**
@@ -102,12 +101,10 @@ public final class Application {
    */
   public void addSpreadsheet(final Spreadsheet newSpreadsheet) 
 		  throws SpreadsheetAlreadyExists {
-	  
 	  final String name = newSpreadsheet.getName();
 	  if (this.getSpreadsheet(name) != null) {
 		  throw new SpreadsheetAlreadyExists(name);
 	  }
-	  
 	  this.spreadsheets.add(newSpreadsheet);
 	  this.newSpreadsheetEvent.notifyObservers(newSpreadsheet);
   }
@@ -300,6 +297,7 @@ public final class Application {
    */
   public void setCurrentRange(Range range) {
 	    this.currentRange = range;	
+	    this.selectEvent.notifyObservers(range);
   }
   
   /**

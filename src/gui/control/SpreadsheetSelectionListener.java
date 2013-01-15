@@ -31,9 +31,6 @@ public final class SpreadsheetSelectionListener
     final int[] selectedRows = view.getSelectedRows();
     final int[] selectedColumns = view.getSelectedColumns();
 
-    if (selectedRows.length > 1 || selectedColumns.length > 1) {
-        return;
-      }
     final Position position =
       new Position(selectedColumns[0], selectedRows[0]);
     
@@ -46,5 +43,4 @@ public final class SpreadsheetSelectionListener
     Application.instance.setCurrentRange(range);
     Application.instance.showCurrentExpression();
   }
-
 }
