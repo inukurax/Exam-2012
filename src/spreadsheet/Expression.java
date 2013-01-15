@@ -2,7 +2,6 @@ package spreadsheet;
 
 import spreadsheet.exception.CycleException;
 import spreadsheet.exception.InvalidReference;
-import spreadsheet.textual.Text;
 
 public abstract class Expression {
 
@@ -40,12 +39,6 @@ public abstract class Expression {
   
   public Expression copy(final int columnOffset, final int rowOffset) 
 		  throws InvalidReference {
-	  Position pos = Application.instance.getCurrentPosition();
-	  Position newPos = new Position(pos.getColumn() + columnOffset, pos.getRow() + rowOffset);
-	  if (newPos.getColumn() < 0 || newPos.getRow() < 0)
-		  throw new InvalidReference();
-	  Application.instance.set(pos, new Text(""));
-	  Application.instance.set(newPos, this);
 	  return this;
   }
 }

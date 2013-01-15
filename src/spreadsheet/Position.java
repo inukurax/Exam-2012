@@ -20,6 +20,14 @@ public class Position {
   public int getRow() {
     return this.row;
   }
+  
+  public int getColumnOffset(final Position position) {
+	  return this.getColumn() - position.getColumn();
+  }
+  
+  public int getRowOffset(final Position position) {
+	  return this.getRow() - position.getRow();
+  }
 
   /** Assume other is an instance of Position. */
   public boolean isEqualTo(final Position other) {

@@ -9,6 +9,7 @@ import gui.language.Language;
 import gui.control.CopyListener;
 import gui.control.ExitListener;
 import gui.control.NewSpreadsheetListener;
+import gui.control.PasteListener;
 import gui.control.RemoveSpreadsheetListener;
 import gui.control.UndoListener;
 
@@ -58,7 +59,7 @@ public final class MenuBar
   
   private JMenuItem newPasteMenuItem() {
 	    final JMenuItem menuItem = new JMenuItem(Language.instance.paste());
-	    //menuItem.addActionListener(UndoListener.instance);
+	    menuItem.addActionListener(PasteListener.instance);
 	    return menuItem;
 	  }
   
