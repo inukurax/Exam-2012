@@ -32,11 +32,16 @@ public final class Reference
     this.onePos = true;
     this.position = position;
   }
-
+  
+  /**
+   * 
+   * @return first expression in the reference
+   * @throws RangeReferenceException 
+   */
   private Expression getExpression() {
 	  boolean mouseMarksRange = Application.instance
 			  .getCurrentRange().isOnePosition();
-	  if ((this.isRange() && !this.isSum()) || !mouseMarksRange)
+	  if ((this.isRange() && !this.isSum()) || (!mouseMarksRange && !this.isRange()))
 		  throw new RangeReferenceException();
 	  final Expression expression = iterator().next();
 	  if (expression == null) {
@@ -79,7 +84,8 @@ public final class Reference
 			  || newRefPosB.getColumn() < 0 || newRefPosB.getRow() < 0)
 		  throw new InvalidReference();
 	  
-	  final Reference ref = new Reference(spreadsheet,new Range(newRefPosA, newRefPosB));
+	  Range range = new Range(newRefPosA, newRefPosB);
+	  final Reference ref = new Reference(spreadsheet, range);
 	  return ref;
   }
   
@@ -93,17 +99,13 @@ public final class Reference
 
   @Override
   public String getDescription() {
-	final String positionDescription = isRange() ? 
-			this.range.getDescription()
+	final String positionDescription = isRange() ? this.range.getDescription() 
 			: this.position.getDescription();
-			
-    if (Application.instance.getWorksheet().equals(this.spreadsheet)) {
+    if (Application.instance.getWorksheet().equals(this.spreadsheet))
       return positionDescription;
-    } else {
-      return String.format("%s!%s",
-        this.spreadsheet.getName(),
-        positionDescription);
-    }
+    else
+      return String.format("%s!%s", this.spreadsheet.getName(), 
+    		  positionDescription);
   }
   
   @Override
@@ -124,11 +126,15 @@ public final class Reference
 
   public boolean isSum() {
 	return isSum;
-}
-
-public void setSum(boolean isSum) {
-	this.isSum = isSum;
-}
+	}
+	
+	public void setSum(boolean isSum) {
+		this.isSum = isSum;
+	}
+	
+	public Position getRefPosition() {
+		return this.position;
+	}
 
 @Override
   public Iterator<Expression> iterator() {

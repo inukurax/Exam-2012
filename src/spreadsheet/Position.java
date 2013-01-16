@@ -22,11 +22,11 @@ public class Position {
   }
   
   public int getColumnOffset(final Position position) {
-	  return this.getColumn() - position.getColumn();
+	  return position.getColumn() - this.getColumn();
   }
   
   public int getRowOffset(final Position position) {
-	  return this.getRow() - position.getRow();
+	  return position.getRow() - this.getRow() ;
   }
 
   /** Assume other is an instance of Position. */

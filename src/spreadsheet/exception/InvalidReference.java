@@ -5,4 +5,7 @@ public final class InvalidReference
 
   public static final long serialVersionUID = 1L;
 
+  public InvalidReference() {
+	  super("Invalid Reference!");
+  }
 }

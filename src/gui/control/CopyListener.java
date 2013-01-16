@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import spreadsheet.Application;
 import spreadsheet.Expression;
 import spreadsheet.Position;
+import spreadsheet.Reference;
 import spreadsheet.exception.InvalidReference;
 
 final public class CopyListener implements ActionListener {
@@ -18,10 +19,14 @@ final public class CopyListener implements ActionListener {
 	private Position position;
 	
 	private CopyListener() {
-		this.copy = null;
 		this.position = Application.instance.getCurrentPosition();
+		this.copy = null;
 	}
 	
+	/**
+	 * Accesor method for getting Copy
+	 * @return Expression that has selected for copy, otherwise null.
+	 */
 	public Expression getCopy() {
 		return copy;
 	}
@@ -30,17 +35,13 @@ final public class CopyListener implements ActionListener {
 	 * @return Guaranteed non null Position
 	 */
 	public Position getPosition() {
-		return Application.instance.getCurrentPosition();
+		return this.position;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		copy = Application.instance.get();	
-		try {
-			copy = copy.copy(1, 0); // should be right offsets
-		} catch (InvalidReference e) {
-			StatusView.instance.errorView.setText(e.getMessage());
-		}
+		this.position = Application.instance.getCurrentPosition();
+		this.copy = Application.instance.get(position);
+		copy = Application.instance.get(this.position);	
 	}
-
 }
