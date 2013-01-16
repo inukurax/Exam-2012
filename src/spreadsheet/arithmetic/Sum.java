@@ -1,8 +1,5 @@
 package spreadsheet.arithmetic;
 
-import java.util.Iterator;
-
-import spreadsheet.Application;
 import spreadsheet.Expression;
 import spreadsheet.Position;
 import spreadsheet.Range;
@@ -23,9 +20,7 @@ public class Sum extends UnaryExpression {
 	@Override
 	public int toInt() {
 		int sum = 0;
-		Iterator<Expression> list = reference.iterator();
-		while (list.hasNext()) {
-			Expression exp = list.next();
+		for (Expression exp : reference) {
 			if (exp != null) {
 				sum += exp.toInt();
 			}

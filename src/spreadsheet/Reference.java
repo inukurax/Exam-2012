@@ -34,16 +34,19 @@ public final class Reference
   }
   
   /**
-   * 
+   * Fails when mark multiply cells and click on 
+   * a cell with a reference expression thats marked.
    * @return first expression in the reference
-   * @throws RangeReferenceException 
+   * @throws RangeReferenceException
+   *  
    */
   private Expression getExpression() {
-	  boolean mouseMarksRange = Application.instance
+	  boolean mouseMarksRange = !Application.instance
 			  .getCurrentRange().isOnePosition();
-	  if ((this.isRange() && !this.isSum()) || (!mouseMarksRange))
+	  if ((this.isRange() && !this.isSum()) || mouseMarksRange)
 		  throw new RangeReferenceException();
-	  final Expression expression = iterator().next(); // might just call on position
+
+	  final Expression expression = Application.instance.get(position);
 	  if (expression == null) {
 		  return new Text("");
 	  }

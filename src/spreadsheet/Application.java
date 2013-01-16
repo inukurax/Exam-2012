@@ -297,6 +297,7 @@ public final class Application {
    */
   public void setCurrentRange(Range range) {
 	    this.currentRange = range;	
+	    
 	    this.selectEvent.notifyObservers(range);
   }
   

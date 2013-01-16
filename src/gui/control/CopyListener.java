@@ -9,11 +9,16 @@ import spreadsheet.Position;
 
 final public class CopyListener implements ActionListener {
 	
+	// Only needed to be initialized once.
 	public final static CopyListener instance = new CopyListener();
 	
 	private Expression copy;
 	private Position position;
 	
+	/**
+	 * It changes the variable copy on click, to be the Expression the 
+	 * current Position.
+	 */
 	private CopyListener() {
 		this.position = Application.instance.getCurrentPosition();
 		this.copy = null;
@@ -37,7 +42,6 @@ final public class CopyListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.position = Application.instance.getCurrentPosition();
-		this.copy = Application.instance.get(position);
-		copy = Application.instance.get(this.position);	
+		this.copy = Application.instance.get(this.position);	
 	}
 }

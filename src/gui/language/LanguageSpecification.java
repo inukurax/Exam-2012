@@ -12,11 +12,11 @@ public abstract class LanguageSpecification {
   public abstract String undo();
   public abstract String copy();
   public abstract String paste();
-  
+  public abstract String data();
+  public abstract String plot();
+
   public abstract String spreadsheet();
   public abstract String newSpreadsheet();
   public abstract String removeSpreadsheet();
-
-
 
 }

@@ -24,8 +24,6 @@ public final class TabChangeListener
   public void stateChanged(ChangeEvent event) {
     final String title =
         TabbedView.instance.getTitleAt(TabbedView.instance.getSelectedIndex());
-    new ChangeWorksheet(title).execute();
-    
+    new ChangeWorksheet(title).execute();  
   }
-
 }

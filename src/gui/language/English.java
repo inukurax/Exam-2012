@@ -48,4 +48,14 @@ public String paste() {
 	return "Paste";
 }
 
+@Override
+public String data() {
+	return "Data";
+}
+
+@Override
+public String plot() {
+	return "Plot";
+}
+
 }

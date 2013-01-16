@@ -10,6 +10,7 @@ import gui.control.CopyListener;
 import gui.control.ExitListener;
 import gui.control.NewSpreadsheetListener;
 import gui.control.PasteListener;
+import gui.control.PlotListener;
 import gui.control.RemoveSpreadsheetListener;
 import gui.control.UndoListener;
 
@@ -29,6 +30,8 @@ public final class MenuBar
     this.add(this.newFileMenu());
     this.add(this.newEditMenu());
     this.add(this.newSpreadsheetMenu());
+    this.add(this.newDataMenu());
+
   }
 
   private JMenu newFileMenu() {
@@ -45,11 +48,23 @@ public final class MenuBar
 	    return menu;
 	  }
 
+  private JMenu newDataMenu() {
+    final JMenu menu = new JMenu(Language.instance.data());
+    menu.add(this.newPlotMenuItem());
+    return menu;
+  }
+  
+  private JMenuItem newPlotMenuItem() {
+	    final JMenuItem menuItem = new JMenuItem(Language.instance.plot());
+	    menuItem.addActionListener(PlotListener.instance);
+	    return menuItem;
+	  }
+  
   private JMenuItem newUndoMenuItem() {
 	    final JMenuItem menuItem = new JMenuItem(Language.instance.undo());
 	    menuItem.addActionListener(UndoListener.instance);
 	    return menuItem;
-	  }
+  }
   
   private JMenuItem newCopyMenuItem() {
 	    final JMenuItem menuItem = new JMenuItem(Language.instance.copy());

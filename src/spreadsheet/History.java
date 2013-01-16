@@ -16,7 +16,7 @@ public class History {
 	 * @param max elements that can be <push> to the list.
 	 */
 	private History(int max) {
-		changeList = new ArrayList<Change>(max);
+		changeList = new ArrayList<Change>();
 		this.max = max;
 	}
 	
@@ -28,8 +28,10 @@ public class History {
 	 * @param change
 	 */
 	public void push(final Change change) {
-		if (current >= max)
+		if (current >= (max - 1)) {
 			changeList.remove(0);
+			current--;
+		}
 		changeList.add(change);
 		current++;
 	}
@@ -44,7 +46,20 @@ public class History {
 			return null;
 		Change change = changeList.get(index);
 		changeList.remove(index);
+		current--;
 		return change;
+	}
+	
+	/**
+	 * Used for debugging, prints a describe of each change
+	 * in the history.
+	 */
+	public void printHistory() {
+		int index = 0;
+		for (Change chg : this.changeList) {
+			System.out.println(String.format("index %d : %s", index,chg.getDescription()));
+			index++;
+		}
 	}
 	
 	

@@ -39,8 +39,8 @@ public final class SpreadsheetSelectionListener
     	    		  selectedRows[selectedRows.length - 1]);
     final Range range = new Range(position, position2);
     	  
-    Application.instance.setCurrentPosition(position);
     Application.instance.setCurrentRange(range);
+    Application.instance.setCurrentPosition(position);
     Application.instance.showCurrentExpression();
   }
 }

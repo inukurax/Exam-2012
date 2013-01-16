@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
+
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,7 @@ public final class Plot {
   public Plot(final int width, final int height) {
     this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     this.graphics = this.image.getGraphics();
+    
   }
 
   /** Attempts to save the image as a png file.

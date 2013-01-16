@@ -27,6 +27,11 @@ public class PasteListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.getCopy();
+		if (!Application.instance.getCurrentRange().isOnePosition()) {
+			StatusView.instance.errorView.setText("Can only Paste to a single cell");
+			return;
+		}
+			
 		int columnOffset = position.getColumnOffset(newPosition);
 		int rowOffset = position.getRowOffset(newPosition);
 		try {
@@ -34,7 +39,8 @@ public class PasteListener implements ActionListener {
 		if (copy == null) {
 			StatusView.instance.errorView.setText("Nothing to paste");
 			return;
-		}	
+		}
+		
 		new Set(newPosition, copy).execute();
 		} catch (InvalidReference e) {
 			 Application.instance.reportError(e);

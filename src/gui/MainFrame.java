@@ -38,7 +38,7 @@ public final class MainFrame
       this.add(TabbedView.instance, BorderLayout.CENTER);
       this.add(StatusView.instance, BorderLayout.PAGE_END);
     }
-
+    
   }
-
+  
 }

@@ -15,15 +15,16 @@ final public class Range {
 	/**
 	 * Construct a immutable object Range which holds the corners of
 	 * two positions
+	 * Guaranteed that a Range' max column and row is atleast 1.
 	 * @param a non null Position
 	 * @param b non null Position
 	 * @throws IllegalPosition 
-	 */
+	 */ 
 	public Range(final Position a, final Position b) {
 		this.rowMin = Math.min(a.getRow(), b.getRow()); 
 		this.rowMax = Math.max(a.getRow(), b.getRow()); 
 		this.columnMin = Math.min(a.getColumn(), b.getColumn()); 
-		this.columnMax = Math.max(a.getColumn(), b.getColumn()); 
+		this.columnMax = Math.max(a.getColumn(), b.getColumn());
 		this.posA = a;
 		this.posB = b;
 	}
@@ -32,45 +33,58 @@ final public class Range {
 	 * Returns a list of positions in the Range. 
 	 * Creates a new list if it hasn't been used before
 	 * its creates with initial size of 
-	 * columnMax * rowMax (will ignore if row/columMax is 0)
+	 * columnMax * rowMax 
 	 * @return ArrayList<Position> of all Positions in the Range
 	 */
 	public ArrayList<Position> getPositionsInRange() {
 		if (posList == null) {
-			posList = new ArrayList<Position>();
+			posList = new ArrayList<Position>(this.columnMax * this.rowMax);
 			addPositions();
 		}
 		return posList;	
 	}
 
 	/**
-	 * Adds all positions in a Range to an ArrayList
-	 * @param type of the largest, of either Column or Row,
-	 * for more efficient method
+	 * Adds all positions in a Range to an ArrayList.
+	 * - adds every column on a row, then the same on next row.
 	 */
 	private void addPositions() {
 		int row = rowMin;
 		int column = columnMin;
-		while (column <= columnMax) {
-			if (row <= rowMax) {
+		while (row <= rowMax) {
+			if (column <= columnMax) {
 				posList.add(new Position(column, row));
-				row++;
+				column++;
 			}
 			else {
-				row = rowMin;
-				column++;
+				column = columnMin;
+				row++;
 			}
 		}
 	}
 	
+	/**
+	 * Check if Range only holds one Position
+	 * @return true if Range holds only one Position, otherwise false.
+	 */
 	public boolean isOnePosition() {
 		return this.posA.isEqualTo(posB);
 	}
 	
+	/**
+	 * Accessor method for getting the first Position
+	 * used to construct the Range
+	 * @return
+	 */
 	public Position getPosA() {
 			return posA;
 	}
 	
+	/**
+	 * Accessor method for getting the second Position
+	 * used to construct the Range
+	 * @return
+	 */
 	public Position getPosB() {
 		return posB;
 }
@@ -92,6 +106,10 @@ final public class Range {
 	}
 	
 	@Override
+	/**
+	 * Overrides the equal method. Two Range' is set to be equal if their
+	 * positions has the same rows and columns.
+	 */
 	public boolean equals(Object other) {
 		if (other == null || (!(other instanceof Range))) {
 			return false;
@@ -101,5 +119,24 @@ final public class Range {
 	    		range.columnMin == this.columnMin &&
 	    		this.rowMax == range.rowMax &&
 	    		this.rowMin == range.rowMin);
+	}
+
+	/**
+	 * Accessor method for getting the number of columns in the Range
+	 * @return int representing columns in the Range
+	 * Guaranteed return > 0
+	 */
+	public int getColumnCount() {
+		int count = (this.columnMax  + 1) - this.columnMin;
+		return count;
+	}
+	
+	/**
+	 * Accessor method for getting the number of rows in the Range
+	 * @return int representing rows in the Range
+	 */
+	public int getRowCount() {
+		int count = (this.rowMax + 1) - this.rowMin;
+		return count;
 	}
 }
