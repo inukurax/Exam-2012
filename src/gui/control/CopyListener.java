@@ -1,15 +1,11 @@
 package gui.control;
 
-import gui.StatusView;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import spreadsheet.Application;
 import spreadsheet.Expression;
 import spreadsheet.Position;
-import spreadsheet.Reference;
-import spreadsheet.exception.InvalidReference;
 
 final public class CopyListener implements ActionListener {
 	

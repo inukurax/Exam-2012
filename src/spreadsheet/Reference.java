@@ -41,9 +41,9 @@ public final class Reference
   private Expression getExpression() {
 	  boolean mouseMarksRange = Application.instance
 			  .getCurrentRange().isOnePosition();
-	  if ((this.isRange() && !this.isSum()) || (!mouseMarksRange && !this.isRange()))
+	  if ((this.isRange() && !this.isSum()) || (!mouseMarksRange))
 		  throw new RangeReferenceException();
-	  final Expression expression = iterator().next();
+	  final Expression expression = iterator().next(); // might just call on position
 	  if (expression == null) {
 		  return new Text("");
 	  }
@@ -84,7 +84,7 @@ public final class Reference
 			  || newRefPosB.getColumn() < 0 || newRefPosB.getRow() < 0)
 		  throw new InvalidReference();
 	  
-	  Range range = new Range(newRefPosA, newRefPosB);
+	  final Range range = new Range(newRefPosA, newRefPosB);
 	  final Reference ref = new Reference(spreadsheet, range);
 	  return ref;
   }
@@ -134,6 +134,14 @@ public final class Reference
 	
 	public Position getRefPosition() {
 		return this.position;
+	}
+	
+	public Range getRefRange() {
+		return this.range;
+	}
+	
+	public Spreadsheet getRefSpreadsheet() {
+		return this.spreadsheet;
 	}
 
 @Override

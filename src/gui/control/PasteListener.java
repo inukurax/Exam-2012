@@ -22,7 +22,6 @@ public class PasteListener implements ActionListener {
 		this.copy = CopyListener.instance.getCopy();
 		this.position = CopyListener.instance.getPosition();
 		this.newPosition = Application.instance.getCurrentPosition();
-		System.out.println("getCopy");
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public class PasteListener implements ActionListener {
 		}	
 		new Set(newPosition, copy).execute();
 		} catch (InvalidReference e) {
-			StatusView.instance.errorView.setText(e.getMessage());
+			 Application.instance.reportError(e);
 			return;
 		}
 	}

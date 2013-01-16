@@ -10,8 +10,6 @@ import quickcheck.RangeGenerator;
 import quickcheck.Values;
 import quickcheck.generators.ReferenceGenerator;
 import quickcheck.generators.TextIntTrueFalseGenerator;
-
-import spreadsheet.arithmetic.Int;
 import spreadsheet.exception.InvalidReference;
 
 /** Tests of the copy-paste operations.
