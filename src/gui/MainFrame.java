@@ -22,7 +22,6 @@ public final class MainFrame
     this.setJMenuBar(MenuBar.instance);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setContentPane(new MainPanel());
-    
     this.pack();
     this.setLocationRelativeTo(null);
   }

@@ -23,7 +23,7 @@ public final class Plot {
   private final BufferedImage image;
   private final Graphics graphics;
 	private int PIXELMULTIPLIER = 5;
-	private int width;
+	private int pillarWidth;
 	private final Reference ref;
 	private final Range range;
 	private int startPos;
@@ -47,87 +47,59 @@ public final class Plot {
     this.graphics = this.image.getGraphics();
     this.imgWidth = width;
     this.imgHeight = height;
-    this.firstRow = new ArrayList<String>();
-    this.secondRow = new ArrayList<Integer>();
     this.range = Application.instance.getCurrentRange();
 	this.ref = new Reference(Application.instance.getWorksheet(), range);
-    setVariables();
+	column = range.getColumnCount();
+	row = range.getRowCount();
+	BarChart barChart = new BarChart(ref, row, column);
+    this.firstRow = barChart.getNames();
+    this.secondRow = barChart.getValues();
+    PIXELMULTIPLIER = barChart.getMaxValue() / (column - 1);
     paintPlot(this.getGraphics());
+	startPos = 30;
+	int divide = (column - 1) == 0 ? 1 : column - 1; // to not get diveded by zero error
+	pillarWidth = (imgWidth - startPos) / divide;
+	System.out.println("PixelMultiplier: " + PIXELMULTIPLIER);
   }
   
-  
-  private void setVariables() {
-		startPos = 30;
-		column = range.getColumnCount();
-		row = range.getRowCount();
-		int divide = (column - 1) == 0 ? 1 : column - 1; // to not get diveded by zero error
-		width = (imgWidth - startPos) / divide;
-
-		int k = 1;
-		for (Expression exp : ref) {
-			if (k == 1) {
-				row1Name = exp.toString();
-				k++;
-				continue;
-			}
-			firstRow.add(exp.toString());
-			if (k >= column)
-				break;
-			k++;
-		}
-		k = 0;
-		secondRow = new ArrayList<Integer>();
-		for (Expression exp : ref) { 
-			k++;
-			if (k <= column)
-				continue;
-			if (k == (column + 1)) {
-				row2Name = exp.toString();
-				continue;
-			}
-			secondRow.add(exp.toInt());	
-		}
-  }
-
-
   private void paintPlot(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, imgWidth, imgHeight);
 		g2d.setColor(Color.BLACK);
-		int y = imgHeight;
-		int xPos = startPos + (width / 3);
+		int y = imgHeight - 10;
+		int xPos = startPos + (pillarWidth / 3);
 
 		
 		// draws the strings from the first row
 		for (String str : firstRow) {
 			g2d.drawString(str , xPos, y);
-			xPos += width;
+			xPos += pillarWidth;
 		}
 		
 		xPos = startPos;
-		int strHeight = 11; // height of string in standard font in win 7
-		g2d.drawLine(startPos, imgHeight - strHeight, imgWidth, imgHeight - strHeight);
+		int strHeight = 10; // height of string in standard font in win 7
+		g2d.drawLine(startPos, y + 1, imgWidth, y + 1);
 		g2d.drawLine(startPos, imgHeight - strHeight, startPos, 0);
 		// draws second row as pillars
 		for (Integer i : secondRow) {
-			int pos = i * PIXELMULTIPLIER;
-			System.out.println("height: "+ pos);
-			int yPos = y - pos - strHeight;
+			int pillarHeight = i * PIXELMULTIPLIER;
+			int yPos = y - pillarHeight - strHeight;
+			System.out.println(pillarHeight + " correct height is: " + i);
 			g2d.setColor(Color.LIGHT_GRAY);
-			g2d.fillRect(xPos, yPos, width, pos );
+			g2d.fillRect(xPos, yPos, pillarWidth, pillarHeight );
 			g2d.setColor(Color.BLACK);
-			g2d.drawRect(xPos, yPos, width, pos );
-			xPos += width;
+			g2d.drawRect(xPos, yPos, pillarWidth, pillarHeight );
+			xPos += pillarWidth;
 		}
-		
+		System.out.println(imgHeight + " and y:" + y);
+
 		// draws numbers on left side
-		int start = imgHeight - strHeight;
-		int linePos = imgHeight - strHeight;
-		System.out.println("start: " + start);
-		for (int i = 0; i < (imgHeight - strHeight); i+= 5) {
-			g2d.drawString(Integer.toString((start - linePos) / PIXELMULTIPLIER) + "-" , startPos - 20, linePos);
-			
+		int linePos = y - strHeight;
+		for (int i = 0; i < (imgHeight - strHeight); i+= PIXELMULTIPLIER) {
+			int actual = linePos + (imgHeight - strHeight) / PIXELMULTIPLIER;
+			g2d.drawString(Integer.toString(actual) + "-" , startPos - 20, linePos);
+			System.out.println(linePos);
 			linePos -= strHeight;
 		}
 	

@@ -2,15 +2,12 @@ package gui.control;
 
 import gui.Plot;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import spreadsheet.Application;
 import spreadsheet.Range;
-import spreadsheet.Reference;
 import spreadsheet.exception.InvalidPlotSize;
 
 public class PlotListener implements ActionListener {
@@ -28,7 +25,7 @@ public class PlotListener implements ActionListener {
 		if  (row > 2 || row < 1)
 			throw new InvalidPlotSize("Can only plot 1*1, 1*x or 2*x"); 
 		
-		return new Plot(((column- 1) * 80) + 30, row * 70);
+		return new Plot(((column- 1) * 100) + 30, row * 70);
 	}
 	
 	@Override
