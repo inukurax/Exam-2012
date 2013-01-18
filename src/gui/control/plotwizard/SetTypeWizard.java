@@ -1,14 +1,16 @@
-package gui;
+package gui.control.plotwizard;
+
+import gui.MainFrame;
+import gui.Plot;
+import gui.Plot.PlotType;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,27 +18,30 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PlotWizard extends JDialog {
+public class SetTypeWizard extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel jlType;
-	private JComboBox<String> jbcType;
+	private JComboBox<Plot.PlotType> jbcType;
 	private JButton cancelButton;
 	private JButton nextButton;
 	private JPanel imgPanel;
 	
-	public PlotWizard(Plot plot) {
+	public SetTypeWizard(final Plot plot) {
 		super(MainFrame.instance, true);
 		jlType = new JLabel("Choose type of plot:");
-		jbcType = new JComboBox<String>();
-		for (Plot.PlotType type : Plot.PlotType.values())
-				jbcType.addItem(type.toString());
-		jbcType.setSelectedIndex(2);
+		jbcType = new JComboBox<Plot.PlotType>();
+		for (Plot.PlotType type : plot.getLegalTypes()) {
+				jbcType.addItem(type);
+		}
+		jbcType.setSelectedIndex(0);
 		jbcType.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
-				
+				plot.setType((PlotType) jbcType.getSelectedItem());
+				plot.plotPaint(plot.getGraphics());
+				imgPanel.repaint();
 			}
 			
 		});
@@ -49,17 +54,38 @@ public class PlotWizard extends JDialog {
 				dispose();
 			}
 		});
+		
+		nextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				new SetColorWizard(plot);
+			}
+		});
+		
 		add(jlType);
 		add(jbcType);
+		plot.plotPaint(plot.getGraphics());
+		imgPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(plot.getImage(), 0, 0, this.getWidth(),
+						this.getHeight(), null);
+			}
+		};
+        imgPanel.setPreferredSize( new Dimension(plot.getWidth() + 10, 
+        		plot.getHeight() + 10)); 
+		add(imgPanel);
+
 		add(cancelButton);
 		add(nextButton);
 	    FlowLayout experimentLayout = new FlowLayout();
-        setPreferredSize( new Dimension(200,300)); 
-        setLocationRelativeTo(MainFrame.instance);
+        setPreferredSize( new Dimension(plot.getWidth() + 15,
+        		180 + plot.getHeight())); 
         setResizable(false);
         pack();
         setLayout(experimentLayout);
 		setTitle("Plot Wizard");
+		setLocationRelativeTo(MainFrame.instance);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 		}

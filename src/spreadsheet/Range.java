@@ -15,10 +15,8 @@ final public class Range {
 	/**
 	 * Construct a immutable object Range which holds the corners of
 	 * two positions
-	 * Guaranteed that a Range' max column and row is atleast 1.
-	 * @param a non null Position
-	 * @param b non null Position
-	 * @throws IllegalPosition 
+	 * @param a assumes non null Position
+	 * @param b assumes non null Position
 	 */ 
 	public Range(final Position a, final Position b) {
 		this.rowMin = Math.min(a.getRow(), b.getRow()); 

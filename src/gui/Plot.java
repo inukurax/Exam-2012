@@ -9,7 +9,6 @@ import java.awt.Graphics2D;
 import javax.imageio.ImageIO;
 
 import spreadsheet.Application;
-import spreadsheet.Expression;
 import spreadsheet.Range;
 import spreadsheet.Reference;
 
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 public final class Plot {
 
 	private ArrayList<String> names = new ArrayList<String>();
-	private ArrayList<Integer> values;
+	private ArrayList<Integer> values = new ArrayList<Integer>();;
 	private BufferedImage image;
 	private final Reference ref;
 	private final Range range;
@@ -35,7 +34,12 @@ public final class Plot {
 	private int row;
 	private int column;
 	private Graphics graphics;
+	private int value;
+	private boolean first = true;
 	
+	/**
+	 * enum for setting what type of plot should be made.
+	 */
 	public enum PlotType {
 		ONEONE, ONEX, TWOX, XTWO;
 		
@@ -59,44 +63,44 @@ public final class Plot {
 	/** Constructs a new RGB  image.
 	 */
 	public Plot(final int width, final int height){
-	this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-	this.imgWidth = image.getWidth();
-	this.imgHeight = image.getHeight();
-	this.range = Application.instance.getCurrentRange();		
-	this.ref = new Reference(Application.instance.getWorksheet(), range);
-	column = range.getColumnCount();
-	row = range.getRowCount();
-	switch (row) {
-	case 1 : 
-		if (column != 1)
-			type = PlotType.ONEX;
-		else
-			type = PlotType.ONEONE;
-		break;
-	case 2 : type = PlotType.TWOX;
-		break;
-	}
-	this.barChart = new BarChart(ref, row, column);
-	this.names = barChart.getNames();
-	this.values = barChart.getValues();
-	this.leftBar = 40;
+	    this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	    this.graphics = this.image.getGraphics();
+		this.imgWidth = image.getWidth();
+		this.imgHeight = image.getHeight();
+		this.range = Application.instance.getCurrentRange();		
+		this.ref = new Reference(Application.instance.getWorksheet(), range);
+		column = range.getColumnCount();
+		row = range.getRowCount();
+		this.barChart = new BarChart(ref, row, column);
+		this.leftBar = 40;
 	}
 	
 	public void plotPaint(Graphics g) {
-		// might be redundent null check
-		if (values == null || values.size() == 0)
-			return;
+		if (first)
+			setup();
+		if (type.equals(PlotType.TWOX)) {
+			this.names = barChart.getNames();
+			if (names.isEmpty())
+				names.add(barChart.getRow1Name());
+			this.values = barChart.getValues();
+			if (values.isEmpty()) 
+				values.add(barChart.getRow2Value());
+		}
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, imgWidth, imgHeight);
 		int minValue = 0;
 		int maxValue = 0;
-		if (this.type.equals(PlotType.XTWO)) {
-			this.barChart.oppositList();
+		if (type.equals(PlotType.XTWO)) {
 			names = this.barChart.getNamesOpposit();
+			if (names.isEmpty())
+				names.add(barChart.getRow1Name());
 			values = this.barChart.getValuesOpposit();
+			if (values.isEmpty()) 
+				values.add(barChart.getRow2Value());
 		}
-		
+		if (this.type.equals(PlotType.ONEX)) {
+			values = barChart.getValuesOpposit();
+		}
 		for (int i = 0; i < values.size(); i++) {
 			minValue =  Math.min(minValue,  values.get(i));
 			maxValue =  Math.max(maxValue,  values.get(i));
@@ -108,6 +112,7 @@ public final class Plot {
 		FontMetrics fontMetrics = g.getFontMetrics(g.getFont());
 			  
 		int bottom = fontMetrics.getHeight(); // height of text
+		//scales the bars so we can have values larger than img height
 		double scale = (imgHeight - (bottom * 2)) / (double)(maxValue - minValue);
 		int ycord = imgHeight - fontMetrics.getDescent();
 		// draws the y-axis
@@ -125,11 +130,10 @@ public final class Plot {
 //			g.drawLine(leftBar + 1, lineY, imgWidth, lineY);
 //			lineY -= ((imgHeight -bottom ) / 10);
 //		}
-//			  
-		if (type.equals(PlotType.ONEONE)) {
+		if (type.equals(PlotType.ONEONE) || type.equals(PlotType.ONEX)) {
 			g.setColor(barColor);
 			int barX =leftBar + 2;
-			int value = Application.instance.get().toInt();
+			
 			scale = (imgHeight - (bottom * 2)) / (double)(value);
 
 			int height = (int) (value * scale);
@@ -147,10 +151,10 @@ public final class Plot {
 			g.drawRect(barX, barY,imgWidth - leftBar, height);
 			return;
 		}
-		// draws the bars
 		g.drawLine(leftBar - 15, imgHeight - bottom, imgWidth, imgHeight - bottom);
 		g.drawString("-" + Integer.toString(0) + "-", leftBar - 15, imgHeight - bottom);
-		
+	
+		// draws the bars
 		for (int i = 0; i < values.size(); i++) {
 			int barX = i * barWidth + leftBar;
 			int height = (int) (values.get(i) * scale);
@@ -163,19 +167,53 @@ public final class Plot {
 			g.fillRect(barX, barY, barWidth, height);
 			g.setColor(Color.BLACK);
 			g.drawRect(barX, barY, barWidth, height);
-			int nameWidth = fontMetrics.stringWidth(names.get(i));
+			String str = names.get(i);
+			int nameWidth = fontMetrics.stringWidth(str);
 			int xcord = leftBar + i * barWidth + (barWidth - nameWidth) / 2;
-			g.drawString(names.get(i), xcord, ycord);
+			g.drawString(str, xcord, ycord);
 			g.drawString(Integer.toString(values.get(i)), 5, barY);
-			
 		}  
 	}
+	private void setup() {
+		switch (row) {
+		case 1 : 
+			if (column == 1) {
+				this.type = PlotType.ONEONE;
+				value = Application.instance.get().toInt();
+				this.values.add(value);
+				break;
+			}
+			else
+				type = PlotType.ONEX;
+			break;
+		default : type = PlotType.TWOX;
+			break;
+		}
+		first  = false;
+	}
+
 	/**
-	 * 
+	 * Sets the type of plot to paint.
 	 * @param type of plot
 	 */
 	public void setType(PlotType type) {
 		this.type = type;	
+	}
+	
+	public ArrayList<PlotType> getLegalTypes() {
+		ArrayList<PlotType> array = new ArrayList<PlotType>();
+		switch (row) {
+		case 1 : 
+			array.add(PlotType.ONEONE);
+			if (row != 1)
+				array.add(PlotType.ONEONE);
+			break;
+		case 2 : 
+			array.add(PlotType.TWOX);
+			array.add(PlotType.XTWO);
+			break;
+		}
+		return array;
 	}
 
 	/** Attempts to save the image as a png file.
@@ -198,19 +236,27 @@ public final class Plot {
 	public BufferedImage getImage() {
 		return this.image;
 	} 
-	/** should be choose from a drop down box
-	 * 
-	 * @param color string representing a color eg. RED
+	
+	public int getWidth() {
+		return this.imgWidth;
+	}
+	
+	public int getHeight() {
+		return this.imgHeight;
+	}
+	/** 
+	 * Sets the Color of the bars
+	 * @param color rgb
 	 */
 	public void setColor(Color color) {
 		this.barColor = color;
 	}
 	
 	public void brigther() {
-		this.barColor.brighter();
+		this.barColor = this.barColor.brighter();
 	}
 	
 	public void darker() {
-		this.barColor.darker();
+		this.barColor = this.barColor.darker();
 	}
 }

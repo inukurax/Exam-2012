@@ -16,7 +16,7 @@ final public class CopyListener implements ActionListener {
 	private Position position;
 	
 	/**
-	 * It changes the variable copy on click, to be the Expression the 
+	 * It changes the variable copy on click, to be the Expression in the 
 	 * current Position.
 	 */
 	private CopyListener() {
@@ -26,7 +26,7 @@ final public class CopyListener implements ActionListener {
 	
 	/**
 	 * Accesor method for getting Copy
-	 * @return Expression that has selected for copy, otherwise null.
+	 * @return Expression that has been selected for copy, otherwise null.
 	 */
 	public Expression getCopy() {
 		return copy;

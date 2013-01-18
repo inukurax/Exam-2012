@@ -11,12 +11,20 @@ public class Sum extends UnaryExpression {
 
 	private final Reference reference;
 	
+	/**
+	 * Constructs a Sum expression
+	 * @param reference a reference to one or more Position
+	 * assumes non null reference.
+	 */
 	public Sum(final Reference reference) {
 		super(ArithmeticType.instance, reference);
 		this.reference = reference;
 		reference.setSum(true);
 	}
 	
+	/**
+	 * Evaluates an Sum expression to to integer.
+	 */
 	@Override
 	public int toInt() {
 		int sum = 0;
@@ -29,6 +37,12 @@ public class Sum extends UnaryExpression {
 		return sum;	  
 	}  
 	
+	/**
+	 * Copies this Sum expression but changed reference position 
+	 * with columnOffset and rowOffset
+	 * @columnOffset number of columns to move reference to the right
+	 * @rowOffset number of  rows to move reference to the right
+	 */
 	  @Override
 	  public Expression copy(final int columnOffset, final int rowOffset) 
 			  throws InvalidReference {

@@ -22,6 +22,7 @@ public final class Application {
   private Position currentPosition;
   private Range currentRange;
 
+  // changes to Range observer instead of Position
   public final Observable<Expression> showEvent;
   public final Observable<Exception> errorEvent;
   public final Observable<Range> selectEvent;
@@ -297,7 +298,6 @@ public final class Application {
    */
   public void setCurrentRange(Range range) {
 	    this.currentRange = range;	
-	    
 	    this.selectEvent.notifyObservers(range);
   }
   

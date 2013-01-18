@@ -21,10 +21,20 @@ public class Position {
     return this.row;
   }
   
+  /**
+   * Returns column offset from this Position to a new Position.
+   * @param position another Position than this to get the column offsets
+   * @return column offset
+   */
   public int getColumnOffset(final Position position) {
 	  return position.getColumn() - this.getColumn();
   }
   
+  /**
+   * Returns row offset from this Position to a new Position.
+   * @param position another Position than this to get the row offsets
+   * @return row offset
+   */  
   public int getRowOffset(final Position position) {
 	  return position.getRow() - this.getRow() ;
   }
