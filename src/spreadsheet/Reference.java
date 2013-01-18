@@ -17,6 +17,11 @@ public final class Reference
   private boolean onePos;
   private boolean isSum = false;
 
+  /**
+   * Constructor for a reference take both a range or a position
+   * @param spreadsheet refered to.
+   * @param range to refer over.
+   */
   public Reference(final Spreadsheet spreadsheet, final Range range) {
     super(GenericType.instance);
     this.spreadsheet = spreadsheet;

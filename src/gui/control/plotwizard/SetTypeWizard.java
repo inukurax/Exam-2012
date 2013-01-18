@@ -27,6 +27,10 @@ public class SetTypeWizard extends JDialog {
 	private JButton nextButton;
 	private JPanel imgPanel;
 	
+	/** wizard for setting what PlotType
+	 * it repaints when changed.
+	 * @param plot assumes non null
+	 */
 	public SetTypeWizard(final Plot plot) {
 		super(MainFrame.instance, true);
 		jlType = new JLabel("Choose type of plot:");
@@ -34,7 +38,6 @@ public class SetTypeWizard extends JDialog {
 		for (Plot.PlotType type : plot.getLegalTypes()) {
 				jbcType.addItem(type);
 		}
-		jbcType.setSelectedIndex(0);
 		jbcType.addItemListener(new ItemListener() {
 
 			@Override
@@ -67,6 +70,8 @@ public class SetTypeWizard extends JDialog {
 		add(jbcType);
 		plot.plotPaint(plot.getGraphics());
 		imgPanel = new JPanel() {
+			private static final long serialVersionUID = 1L;
+
 			public void paintComponent(Graphics g) {
 				g.drawImage(plot.getImage(), 0, 0, this.getWidth(),
 						this.getHeight(), null);

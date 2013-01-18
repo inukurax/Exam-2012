@@ -15,10 +15,8 @@ public class BarChart {
 	private ArrayList<String> names;
 	private ArrayList<String> namesOpposit;
 	private Reference ref;
-	private String row1Name = "";
 	private int columns;
-	private int rows;
-	private int row2Value;
+
 	
 	/**
 	 * Used to setup all the info a Plot needs
@@ -34,7 +32,6 @@ public class BarChart {
 		this.namesOpposit = new ArrayList<String>();
 		this.ref = ref;
 		this.columns = columns;
-		this.rows = rows;
 	}
 	
 	/**
@@ -45,11 +42,6 @@ public class BarChart {
 			names.clear();
 		int k = 1;
 			for (Expression exp : ref) {
-				if (k == 1 && columns != 1) {
-					row1Name = exp.toString();
-					k++;
-					continue;
-				}
 				names.add(exp.toString());
 				if (k >= columns)
 					break;
@@ -67,10 +59,6 @@ public class BarChart {
 			k++;
 			if (k <= columns)
 				continue;
-			if (k == (columns + 1) && rows != 1) {
-				row2Value = exp.toInt();
-				continue;
-			}
 			values.add(exp.toInt());	
 		}	
 	}
@@ -87,10 +75,6 @@ public class BarChart {
 			k++;
 			if (k <= columns)
 				continue;
-			if (k == (columns + 1) && rows != 1) {
-				row1Name = exp.toString();
-				continue;
-			}
 			namesOpposit.add(exp.toString());	
 		}	
 	}
@@ -102,11 +86,6 @@ public class BarChart {
 			valuesOpposit.clear();
 		int k = 1;
 		for (Expression exp : ref) {
-			if (k == 1 && columns != 1) {
-				row2Value = exp.toInt();
-				k++;
-				continue;
-			}
 			valuesOpposit.add(exp.toInt());
 			if (k >= columns)
 				break;
@@ -139,7 +118,8 @@ public class BarChart {
 	 * @return Expression.toString of row 2 in an ArrayList
 	 */
 	public ArrayList<String> getNamesOpposit() {
-		this.oppositNameList();
+		if (namesOpposit.isEmpty())
+			this.oppositNameList();
 		return namesOpposit;
 	}
 
@@ -148,22 +128,8 @@ public class BarChart {
 	 * @return Expression.toInt of row 1 in an ArrayList
 	 */
 	public ArrayList<Integer> getValuesOpposit() {
-		this.oppositValueList();
+		if (valuesOpposit.isEmpty())
+			this.oppositValueList();
 		return valuesOpposit;
-	}
-	
-	/**
-	 * the first columns on row 1's String.
-	 * @return expression.toString on column 1, row 1
-	 */
-	public String getRow1Name() {
-		return row1Name;
-	}
-	/**
-	 * the first columns on row 1's String.
-	 * @return expression.toString on column 1, row 1
-	 */
-	public int getRow2Value() {
-		return row2Value;
 	}
 }

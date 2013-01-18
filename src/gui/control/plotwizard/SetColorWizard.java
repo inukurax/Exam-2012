@@ -9,21 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
-
-
 import gui.MainFrame;
 import gui.Plot;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class SetColorWizard extends JDialog {
 
@@ -37,6 +29,9 @@ public class SetColorWizard extends JDialog {
 	private JColorChooser jccColor;
 	private JButton jbColor;
 	private Plot plot;
+	private JDialog jdialog;
+	private JButton jbOk;
+	private JButton jbClose;
 
 	public SetColorWizard(final Plot plot) {
 		super(MainFrame.instance, true);
@@ -47,7 +42,6 @@ public class SetColorWizard extends JDialog {
 		jcbColor = new JComboBox<ColorName>();
 		addColors();
 		jcbColor.addItemListener(new ItemListener() {
-
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				ColorName color = (ColorName) jcbColor.getSelectedItem();
@@ -63,34 +57,13 @@ public class SetColorWizard extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-			    final JColorChooser chooser = new JColorChooser();
-			    ActionListener okListener = new ActionListener() {
-			      public void actionPerformed(ActionEvent evt) {
-			        Color newColor = chooser.getColor();
-			      }
-			    };
-
-			    ActionListener cancelListener = new ActionListener() {
-			      public void actionPerformed(ActionEvent evt) {
-			        Color newColor = chooser.getColor();
-			      }
-			    };
-
-			    boolean modal = false;
-
-			    JDialog dialog = JColorChooser.createDialog(null, "Bar Color Chooser", modal, chooser, okListener,
-			        cancelListener);
-
-			    dialog.addWindowListener(new WindowAdapter() {
-			      public void windowClosing(WindowEvent evt) {
-			        Color newColor = chooser.getColor();
-			      }
-			    });
-			}
-			
-		});
+		        jdialog.setVisible(true);
+			    }
+			});
 		
 		imgPanel = new JPanel() {
+			private static final long serialVersionUID = 11L;
+
 			public void paintComponent(Graphics g) {
 				g.drawImage(plot.getImage(), 0, 0, this.getWidth(),
 						this.getHeight(), null);
@@ -160,7 +133,36 @@ public class SetColorWizard extends JDialog {
 		add(buttonPanel, BorderLayout.PAGE_END);
 
         setResizable(false);
+        jccColor = new JColorChooser();
+        jdialog = new JDialog(this, true);
+        jbOk = new JButton("Ok");
+        jbOk.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				plot.setColor(jccColor.getColor());
+				plot.plotPaint(plot.getGraphics());
+				imgPanel.repaint();				
+			}
+        	
+        });
+        jbClose = new JButton("Close");
+        jbClose.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				jdialog.dispose();
+			}
+        	
+        });
+
+        jdialog.setLayout(new FlowLayout());
+        jdialog.add(jbOk);
+        jdialog.add(jbClose);
+
+        jdialog.setResizable(false);
+        jdialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        jdialog.add(jccColor);
+        jdialog.pack();
 		pack();
 		
 		setLocationRelativeTo(MainFrame.instance);
@@ -169,6 +171,9 @@ public class SetColorWizard extends JDialog {
 		setVisible(true);
 	}
 
+	/**
+	 * Adds some colors to the combobox
+	 */
 	private void addColors() {
 		jcbColor.addItem(new ColorName(Color.LIGHT_GRAY, "Light Grey"));
 		jcbColor.addItem(new ColorName(Color.BLACK, "Black"));
@@ -181,6 +186,9 @@ public class SetColorWizard extends JDialog {
 		jcbColor.addItem(new ColorName(Color.YELLOW, "Yellow"));
 	}
 	
+	/**
+	 * Class used for storing Colors in JCombobox
+	 */
 	private class ColorName {
 		
 		private String name;

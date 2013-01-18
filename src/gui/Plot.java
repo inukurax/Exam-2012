@@ -84,11 +84,7 @@ public final class Plot {
 			setup();
 		if (type.equals(PlotType.TWOX)) {
 			this.names = barChart.getNames();
-			if (names.isEmpty())
-				names.add(barChart.getRow1Name());
 			this.values = barChart.getValues();
-			if (values.isEmpty()) 
-				values.add(barChart.getRow2Value());
 		}
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, imgWidth, imgHeight);
@@ -96,11 +92,7 @@ public final class Plot {
 		int maxValue = 0;
 		if (type.equals(PlotType.XTWO)) {
 			names = this.barChart.getNamesOpposit();
-			if (names.isEmpty())
-				names.add(barChart.getRow1Name());
 			values = this.barChart.getValuesOpposit();
-			if (values.isEmpty()) 
-				values.add(barChart.getRow2Value());
 		}
 		if (this.type.equals(PlotType.ONEX)) {
 			values = barChart.getValuesOpposit();
