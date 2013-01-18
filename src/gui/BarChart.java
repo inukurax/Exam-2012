@@ -114,31 +114,56 @@ public class BarChart {
 		}
 	}
 	
+	/**
+	 * Accessor method for getting int vaues from a reference.
+	 * @return Expression.toInt of row 2 in an ArrayList
+	 */
 	public ArrayList<Integer> getValues() { 
-		this.updateValueList();
+		if (values.isEmpty())
+			this.updateValueList();
 		return values;
 	}
 
+	/**
+	 * Accessor method for getting names from a reference.
+	 * @return Expression.toString of row 1 in an ArrayList
+	 */
 	public ArrayList<String> getNames() {
-		this.updateNameList();
+		if (names.isEmpty())
+			this.updateNameList();
 		return names;
 	}
 
-	public String getRow1Name() {
-		return row1Name;
-	}
-
-	public int getRow2Value() {
-		return row2Value;
-	}
-
+	/**
+	 * Accessor method for getting names from a reference.
+	 * @return Expression.toString of row 2 in an ArrayList
+	 */
 	public ArrayList<String> getNamesOpposit() {
 		this.oppositNameList();
 		return namesOpposit;
 	}
 
+	/**
+	 * Accessor method for getting int vaues from a reference.
+	 * @return Expression.toInt of row 1 in an ArrayList
+	 */
 	public ArrayList<Integer> getValuesOpposit() {
 		this.oppositValueList();
 		return valuesOpposit;
+	}
+	
+	/**
+	 * the first columns on row 1's String.
+	 * @return expression.toString on column 1, row 1
+	 */
+	public String getRow1Name() {
+		return row1Name;
+	}
+	/**
+	 * the first columns on row 1's String.
+	 * @return expression.toString on column 1, row 1
+	 */
+	public int getRow2Value() {
+		return row2Value;
 	}
 }

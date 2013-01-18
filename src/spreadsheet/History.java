@@ -28,7 +28,7 @@ public class History {
 	 * @param change
 	 */
 	public void push(final Change change) {
-		if (current >= (max - 1)) {
+		if (current >= max) {
 			changeList.remove(0);
 			current--;
 		}

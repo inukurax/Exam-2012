@@ -14,6 +14,8 @@ import quickcheck.Values;
 import quickcheck.generators.IfThenElseGenerator;
 import quickcheck.generators.TextIntTrueFalseGenerator;
 import spreadsheet.command.Set;
+import spreadsheet.exception.NoSuchSpreadsheet;
+import spreadsheet.exception.SpreadsheetAlreadyExists;
 import spreadsheet.textual.Text;
 
 /** Tests of the undo operation.
@@ -73,7 +75,12 @@ public class UndoTest {
   		      System.err.println("Expected: " + expected.toString() 
   		    		  + " -got-  " + actual.toString());
 	  	    }
-	  	    
+	  	    // have to reset the spreadsheet for accurate results
+	  	    try {
+				Application.instance.newSpreadsheet();
+				Application.instance.changeWorksheet("Sheet1");
+			} catch (SpreadsheetAlreadyExists | NoSuchSpreadsheet e) {
+			}
 	  	    // fills the history
 	  	  final Values<ExpressionInfo> infos2 =
 		  	      new Values<ExpressionInfo>(this.expGen,25);
@@ -86,25 +93,30 @@ public class UndoTest {
 	  	    	expectedList.add(expected);
 	  	    	new Set(pos, info.getValue()).execute();
 	  	  }
-	    	History.instance.printHistory();
-	  	  for(int i = 0; i <= posList.size(); i++) {
+
+	  	  for(int i = expectedList.size() - 1; i >= 0; i--) {
 	  		final Position pos = posList.get(i);
 	  		final Expression expected = expectedList.get(i);
 	  	    Change change = History.instance.pop();
-	  		final Expression actual = Application.instance.get(pos);
-	  	    if (change != null)
+	  	    if (change != null) {
 	  	    	change.undo();
+		  		final Expression actual = Application.instance.get(pos);
+
 	  	      if (expected.toString().equals(actual.toString())) {
-		  	      System.out.println(i +"# SUCCES: " + expected.getDescription() 
-	  		    		  + " -got-  " + actual.getDescription() + " at: " + pos.getDescription());
 	  	    	  continue;
 		  	  }
 
-	  	      System.err.println(i +"#undo() at FIXED pos: " + pos.getDescription() 
+	  	      System.err.println(i +"#undo() at filled Random pos: " + pos.getDescription() 
 	  	    		  + " failed. " + actual.getDescription());
   		      System.err.println(i +"#Expected: " + expected.getDescription() 
   		    		  + " -got-  " + actual.getDescription() + " at: " + pos.getDescription());
-	  	    	
+	  	    }
+	  	    else if (expectedList.size() - i > 20)
+	  	    	continue;
+	  	    else   		      
+	  	    	System.err.println("list should be empty now");
+
+	  	    
 	  	  }
   }
   

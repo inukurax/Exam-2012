@@ -75,6 +75,10 @@ public final class Plot {
 		this.leftBar = 40;
 	}
 	
+	/**
+	 * Paints the Plot from the current settings.
+	 * @param g
+	 */
 	public void plotPaint(Graphics g) {
 		if (first)
 			setup();
@@ -130,7 +134,7 @@ public final class Plot {
 //			g.drawLine(leftBar + 1, lineY, imgWidth, lineY);
 //			lineY -= ((imgHeight -bottom ) / 10);
 //		}
-		if (type.equals(PlotType.ONEONE) || type.equals(PlotType.ONEX)) {
+		if (type.equals(PlotType.ONEONE)) {
 			g.setColor(barColor);
 			int barX =leftBar + 2;
 			
@@ -167,13 +171,19 @@ public final class Plot {
 			g.fillRect(barX, barY, barWidth, height);
 			g.setColor(Color.BLACK);
 			g.drawRect(barX, barY, barWidth, height);
+			if (!type.equals(PlotType.ONEX)) {
 			String str = names.get(i);
 			int nameWidth = fontMetrics.stringWidth(str);
 			int xcord = leftBar + i * barWidth + (barWidth - nameWidth) / 2;
 			g.drawString(str, xcord, ycord);
+			}
 			g.drawString(Integer.toString(values.get(i)), 5, barY);
 		}  
 	}
+	/**
+	 * Sets the type on the first run.
+	 * next time it will be user set from the gui.
+	 */
 	private void setup() {
 		switch (row) {
 		case 1 : 
@@ -200,12 +210,17 @@ public final class Plot {
 		this.type = type;	
 	}
 	
+	/**
+	 * Accesor method for getting legal PlotTypes, used by JComboBox
+	 * @return a PlotType[] with all allowed PlotType for current settings.
+	 */
 	public ArrayList<PlotType> getLegalTypes() {
 		ArrayList<PlotType> array = new ArrayList<PlotType>();
 		switch (row) {
 		case 1 : 
-			array.add(PlotType.ONEONE);
-			if (row != 1)
+			if (column > 1)
+				array.add(PlotType.ONEX);
+			else
 				array.add(PlotType.ONEONE);
 			break;
 		case 2 : 
@@ -227,7 +242,11 @@ public final class Plot {
 	public Graphics getGraphics() {
 		return this.graphics;
 	}
-  
+	
+	/**
+	 * Paints the graphics on the image.
+	 * @param g
+	 */
 	public void paintComponent(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(this.image, null, 0,0);

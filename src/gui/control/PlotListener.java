@@ -9,7 +9,7 @@ import spreadsheet.Range;
 import spreadsheet.exception.InvalidPlotSize;
 
 public class PlotListener implements ActionListener {
-
+	
 	public final static PlotListener instance = new PlotListener();
 	
 	public PlotListener() {
@@ -27,12 +27,16 @@ public class PlotListener implements ActionListener {
 		final int column = range.getColumnCount();
 		final int row = range.getRowCount();
 		if  (row > 2 || row < 1)
-			throw new InvalidPlotSize("Can only plot 1*1, 1*x or 2*x"); 
+			throw new InvalidPlotSize("Can only plot 1*1, 1*x-rows or 2*x-rows"); 
 		int width = (column * 50) + 40;
 		width = width > 800 ? 800 : width;
 		return new Plot(width, 350);
 	}
 	
+	/**
+	 * Activated on click on menuItem Plot
+	 * @see <MenuBar>
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		try {
