@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.Component;
+
 import gui.control.TabChangeListener;
 
 import javax.swing.JScrollPane;
@@ -32,6 +34,10 @@ public final class TabbedView
       this.addTab(spreadsheet);  
     }
     this.addChangeListener(TabChangeListener.instance);
+  }
+  
+  public Component getCurrentTabComp() {
+	  return this.getTabComponentAt(this.getSelectedIndex());
   }
 
   private void addTab(final Spreadsheet spreadsheet) {
